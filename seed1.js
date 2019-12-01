@@ -56,6 +56,7 @@ const Price = sequelize.define('prices', {
   },
 });
 
+
 const zipcodes = ['94066', '95123', '93275', '93293', '90312', '91458', '92321', '90043', '95031', '91851'];
 const cities = ['San Bruno', 'San Jose', 'San Mateo', 'Oakland', 'San Francisco', 'Sacramento', 'Pleasanton', 'Berkeley', 'Fresno'];
 
@@ -99,9 +100,12 @@ sequelize.sync({ force: true }).then(() => {
     for (let n = 1; n <= 60; n += 1) {
       Price.create({
         property_id: m,
-        price: Math.ceil(Math.random() * 600 + 800) * 900,
+        price: Math.ceil(Math.random() * 500 + 700) * 1000,
         date_id: n,
       });
     }
   }
 });
+
+
+module.exports = Price;
