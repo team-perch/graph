@@ -77,9 +77,9 @@ sequelize.sync({ force: true }).then(() => {
   }
 }).then(() => {
   for (let i = 0; i < 100; i += 1) {
-    const bednum = Math.ceil(Math.random() * 5);
-    const bathnum = Math.ceil(Math.random() * 5);
-    const price = Math.ceil(Math.random() * 600 + 800) * 1000;
+    const bednum = faker.number.random({ min: 1, max: 5 });
+    const bathnum = faker.number.random({ min: 1, max: 5 });
+    const price = faker.number.random({ min: 800000, max: 1400000, precision: 1000 });
     const rating = Math.round(Math.random());
     const img = faker.image.city();
     const obj = {

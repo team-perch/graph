@@ -21,7 +21,7 @@ module.exports = {
     //   callback(null, data)
     // })
     let info = id.houseId
-    connection.query(`select * from prices where prices.property_id = ${infox}`, function(error, data){
+    connection.query(`select * from prices where prices.property_id = ${info}`, function(error, data){
       if(error){
         callback(error, null)
       } else {
