@@ -56,6 +56,7 @@ const Price = sequelize.define('prices', {
   },
 });
 
+
 const zipcodes = ['94066', '95123', '93275', '93293', '90312', '91458', '92321', '90043', '95031', '91851'];
 const cities = ['San Bruno', 'San Jose', 'San Mateo', 'Oakland', 'San Francisco', 'Sacramento', 'Pleasanton', 'Berkeley', 'Fresno'];
 
@@ -76,9 +77,9 @@ sequelize.sync({ force: true }).then(() => {
   }
 }).then(() => {
   for (let i = 0; i < 100; i += 1) {
-    const bednum = Math.ceil(Math.random() * 5);
-    const bathnum = Math.ceil(Math.random() * 5);
-    const price = Math.ceil(Math.random() * 600 + 800) * 1000;
+    const bednum = faker.number.random({ min: 1, max: 5 });
+    const bathnum = faker.number.random({ min: 1, max: 5 });
+    const price = faker.number.random({ min: 800000, max: 1400000, precision: 1000 });
     const rating = Math.round(Math.random());
     const img = faker.image.city();
     const obj = {
@@ -99,9 +100,12 @@ sequelize.sync({ force: true }).then(() => {
     for (let n = 1; n <= 60; n += 1) {
       Price.create({
         property_id: m,
-        price: Math.ceil(Math.random() * 600 + 800) * 900,
+        price: Math.ceil(Math.random() * 500 + 700) * 1000,
         date_id: n,
       });
     }
   }
 });
+
+
+module.exports = Price;
