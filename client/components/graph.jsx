@@ -6,6 +6,7 @@ class Graph extends React.PureComponent {
     super(props);
     this.state = {
       prices: [],
+      pop: 0,
     };
     this.showPrice = this.showPrice.bind(this);
   }
@@ -29,34 +30,47 @@ class Graph extends React.PureComponent {
     })
   }
   showPrice(e){
-    console.log(e.target)
-    console.log('hello')
+    let id = e.target.id
+    this.setState({
+      pop: id
+    })
   }
   render() {
     let estimates;
+    let popup;
     if(this.state.prices.length > 0){
       estimates = this.state.prices.map((price, key) => {
-        console.log(key)
-        if(price.date_id < 50){
+        if(price.date_id < 60){
           let next = this.state.prices[key+1];
           return(
             <g>
-              <circle cx = {40 + (10 * price.date_id)} cy = {250 - (price.price * 0.0001)} r='2' fill='red' onMouseEnter= {this.showPrice}></circle>
+              <line x1 = {40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '0' onMouseEnter= {this.showPrice} id= {price.date_id} stroke = 'red' stroke-width = '0.25'></line>
               <line x1={40 + (10 * price.date_id)} x2={50 + (10 * price.date_id)} y1={250 - (price.price * 0.0001)} y2= {250 - (next.price * 0.0001)} stroke="black"/>
             </g>
           );
         }
+        else {
+          return(
+            <g>
+            </g>
+          )
+        }
       })
     } else {estimates = <h2>none</h2>}
+    if(this.state.pop.length > 0){
+      let temp = this.state.prices[this.state.pop - 1]
+      popup = <text x = {40 + (10 * temp.date_id)} y ='100'>Hello</text>
+    }
     return (
       <div>
         <svg viewBox="0 0 700 250">
             {estimates}
+            {popup}
           <text x='70' y='250'>2015</text>
-          <text x='170' y='250'>2016</text>
-          <text x='270' y='250'>2017</text>
-          <text x='370' y='250'>2018</text>
-          <text x='470' y='250'>2019</text>
+          <text x='190' y='250'>2016</text>
+          <text x='310' y='250'>2017</text>
+          <text x='430' y='250'>2018</text>
+          <text x='550' y='250'>2019</text>
         </svg>
       </div>
     );
