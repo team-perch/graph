@@ -8,7 +8,7 @@ class Rec extends React.Component {
   }
   render(){
     return(
-      <h1>Hello from Rec</h1>
+      <h1>{this.props.zipcode}</h1>
     )
   }
 }
