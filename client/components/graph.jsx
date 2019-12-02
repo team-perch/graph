@@ -11,9 +11,16 @@ class Graph extends React.PureComponent {
     this.showPrice = this.showPrice.bind(this);
   }
   componentDidMount(){
-    console.log(`/api/estimates/pricing${window.location.pathname}`)
+    const api = function (){
+      let result = '/api/estimates/pricing/1'
+      if(window.location.pathname.length > 1){
+        result = `/api/estimates/pricing${window.location.pathname}`
+      }
+      return result
+    }
+    console.log(api())
     ajax({
-      url: `/api/estimates/pricing${window.location.pathname}`,
+      url: api(),
       method: "GET",
       success: (data) => {
         data.sort(function(a,b){
