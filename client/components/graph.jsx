@@ -33,6 +33,7 @@ class Graph extends React.PureComponent {
           }
           return 0;
         });
+        this.props.getZip(data[0].property_id)
         this.setState({
           prices: data,
         });
@@ -46,6 +47,7 @@ class Graph extends React.PureComponent {
     this.setState({
       pop: id,
     });
+
   }
   hidePrice(e){
     console.log('HIDE')
