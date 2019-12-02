@@ -11,8 +11,9 @@ class Graph extends React.PureComponent {
     this.showPrice = this.showPrice.bind(this);
   }
   componentDidMount(){
+    console.log(`/api/estimates/pricing${window.location.pathname}`)
     ajax({
-      url: '/api/estimates/pricing',
+      url: `/api/estimates/pricing${window.location.pathname}`,
       method: "GET",
       success: (data) => {
         data.sort(function(a,b){
@@ -22,7 +23,6 @@ class Graph extends React.PureComponent {
             return 1
           } else {return 0}
         })
-        console.log(data)
         this.setState({
           prices: data
         })
@@ -31,6 +31,7 @@ class Graph extends React.PureComponent {
   }
   showPrice(e){
     let id = e.target.id
+    e.preventDefault();
     this.setState({
       pop: id
     })
@@ -43,23 +44,43 @@ class Graph extends React.PureComponent {
         if(price.date_id < 60){
           let next = this.state.prices[key+1];
           return(
-            <g>
-              <line x1 = {40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '0' onMouseEnter= {this.showPrice} id= {price.date_id} stroke = 'red' stroke-width = '0.25'></line>
+            <g onMouseEnter= {this.showPrice}>
+              <line x1 = {40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '0' id= {price.date_id} stroke = 'white' stroke-width = '0.25'></line>
               <line x1={40 + (10 * price.date_id)} x2={50 + (10 * price.date_id)} y1={250 - (price.price * 0.0001)} y2= {250 - (next.price * 0.0001)} stroke="black"/>
             </g>
           );
         }
         else {
           return(
-            <g>
+            <g onMouseEnter= {this.showPrice}>
+              <line x1 = {40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '0' id= {price.date_id} stroke = 'white' stroke-width = '0.25'></line>
             </g>
           )
         }
       })
     } else {estimates = <h2>none</h2>}
-    if(this.state.pop.length > 0){
+    if(this.state.pop > 0){
       let temp = this.state.prices[this.state.pop - 1]
-      popup = <text x = {40 + (10 * temp.date_id)} y ='100'>Hello</text>
+      let date = function (num) {
+        var months = [
+          'December', 'January', 'February', 'March', 'April', 'May',
+          'June', 'July', 'August', 'September',
+          'October', 'November'
+          ];
+        let obj = {
+          year: Math.floor((num-1)/12),
+          month: num%12
+        }
+        console.log(obj.month)
+        return `20${15 + obj.year}-${months[obj.month]}`
+      }
+      popup = (
+        <g>
+          <circle cx = {40 + (10 * temp.date_id)} cy= {250 - (temp.price * 0.0001)} r='3' />
+          <text x = {40 + (10 * temp.date_id)} y ='100'> {date(temp.date_id)} {temp.price}</text>
+          <line x1 = {40 + (10 * temp.date_id)} x2 = {40 + (10 * temp.date_id)} y1 = '230' y2 = '0' id= {temp.date_id} stroke = 'green' stroke-width = '0.25'></line>
+        </g>
+      )
     }
     return (
       <div>

@@ -15,12 +15,13 @@ connection.connect(function(err) {
 });
 
 module.exports = {
-  getgraph: (callback) => {
+  getgraph: (callback, id) => {
     // Price.findAll({where: {property_id: 1}}).then((data)=>{
     //   console.log('MODEL' + data)
     //   callback(null, data)
     // })
-    connection.query('select * from prices where prices.property_id = 1', function(error, data){
+    let info = id.houseId
+    connection.query(`select * from prices where prices.property_id = ${info}`, function(error, data){
       if(error){
         callback(error, null)
       } else {
