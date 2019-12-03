@@ -20,9 +20,9 @@ module.exports = {
     //   console.log('MODEL' + data)
     //   callback(null, data)
     // })
-    let info = id.houseId
+    let info = id.houseId;
     connection.query(`select * from prices where prices.property_id = ${info}`, function(error, data){
-      if(error){
+      if (error) {
         callback(error, null)
       } else {
         callback(null, data)
@@ -48,7 +48,6 @@ module.exports = {
   },
   getzip: (callback, id) => {
     let info = id.houseId
-    console.log(info)
     connection.query(`select zipcode from groups where groups.group_id = ${info}`, function(error, data){
       if(error){
         callback(error, null)
@@ -58,5 +57,15 @@ module.exports = {
         callback(null, data)
       }
     });
+  },
+  gethouseinfo: (callback, id) =>{
+    let info = id.houseId
+    connection.query(`select * from houses where houses.property_id = ${info}`, function(error, data) {
+      if(error) {
+        callback(error, null);
+      } else {
+        callback(null, data);
+      }
+    })
   }
 }

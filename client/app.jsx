@@ -1,6 +1,7 @@
 import React from 'react';
 import Graph from './components/graph.jsx'
 import Rec from './components/rec.jsx'
+import styled from 'styled-components';
 class App extends React.Component{
   constructor(props){
     super(props);
@@ -17,8 +18,8 @@ class App extends React.Component{
   render(){
     return(
       <div>
-        <Graph getZip = {this.getZip}/>
-        <Rec zipcode = {this.state.zip}/>
+          <Graph getZip = {this.getZip}/>
+          <Rec zipcode = {this.state.zip}/>
       </div>
     )
   }
