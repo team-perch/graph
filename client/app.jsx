@@ -1,28 +1,30 @@
 import React from 'react';
+import styled from 'styled-components';
 import Graph from './components/graph.jsx'
 import Rec from './components/rec.jsx'
-import styled from 'styled-components';
-class App extends React.Component{
-  constructor(props){
+
+class App extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
-      zip:''
-    }
-    this.getZip = this.getZip.bind(this)
+      zip: '',
+    };
+    this.getZip = this.getZip.bind(this);
   }
-  getZip(string){
+
+  getZip(string) {
     this.setState({
-      zip: string
-    })
+      zip: string,
+    });
   }
-  render(){
-    return(
+
+  render() {
+    return (
       <div>
-          <Graph getZip = {this.getZip}/>
-          <Rec zipcode = {this.state.zip}/>
+        <Graph getZip ={this.getZip} />
+        <Rec zipcode ={this.state.zip} />
       </div>
-    )
+    );
   }
 }
 export default App;
-

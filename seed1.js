@@ -81,7 +81,7 @@ sequelize.sync({ force: true }).then(() => {
     const bathnum = faker.random.number({ min: 1, max: 5 });
     const price = faker.random.number({ min: 800000, max: 1400000, precision: 1000 });
     const rating = Math.round(Math.random());
-    const img = faker.image.city();
+    const img = `https://redfin-estimates.s3.us-east-2.amazonaws.com/Img${i}.jpg`;
     const obj = {
       imgurl: img,
       rating,
