@@ -169,6 +169,7 @@ class Graph extends React.PureComponent {
   render() {
     let estimates;
     let popup;
+    let xaxis;
     if (this.state.prices.length > 0) {
       if(this.state.time === 5){
         estimates = this.state.prices.map((price, key) => {
@@ -186,14 +187,54 @@ class Graph extends React.PureComponent {
           return (
               <g onMouseOver={this.showPrice}>
                 <InvisLine x1={40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '110' id= {price.date_id} stroke='white' stroke-width='3'/>
+                <circle cx ={40 + (10 * price.date_id)} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
               </g>
           );
         });
+        xaxis = (
+          <g>
+            <Xaxis x="90" y="220">2015</Xaxis>
+            <Xaxis x="210" y="220">2016</Xaxis>
+            <Xaxis x="330" y="220">2017</Xaxis>
+            <Xaxis x="450" y="220">2018</Xaxis>
+            <Xaxis x="570" y="220">2019</Xaxis>
+          </g>
+        );
       }
       else if (this.state.time===1){
-        estimates = this.state.prices.map((price, key)=>{
-          console.log(key)
+        let arr = this.state.prices.slice(48, 60)
+        estimates = arr.map((price, key)=>{
+          if(key < 11){
+            const next = arr[key + 1];
+            key += 1
+            return(
+              <g onMouseOver={this.showPrice}>
+                <InvisLine x1={(50 * key)} x2 = {(50 * key)} y1 = '230' y2 = '110' id= {price.date_id} stroke = 'white' strokeWidth='3' position="relative"/>
+
+                <circle cx ={(50 * key)} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
+                <GraphLine x1={(50 * key)} x2={50 + (50 * key)} y1={250 - (price.price * 0.0001)} y2= {250 - (next.price * 0.0001)} stroke="black" strokeWidth='1' fill='none' />
+              </g>
+            )
+          }
+          else {
+            return(
+              <g onMouseOver={this.showPrice}>
+                <InvisLine x1={(50 * key) + 50} x2 = {(50 * key) + 50} y1 = '230' y2 = '110' id= {price.date_id} stroke='white' stroke-width='3'/>
+                <circle cx ={(50 * key) + 50} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
+              </g>
+            )
+          }
         })
+        xaxis = (
+          <g>
+            <Xaxis x="90" y="220">Feb</Xaxis>
+            <Xaxis x="190" y="220">Apr</Xaxis>
+            <Xaxis x="290" y="220">Jun</Xaxis>
+            <Xaxis x="390" y="220">Aug</Xaxis>
+            <Xaxis x="490" y="220">Oct</Xaxis>
+            <Xaxis x="590" y="220">Dec</Xaxis>
+          </g>
+        );
       }
     }
     else { estimates = <h2>none</h2>; }
@@ -211,66 +252,38 @@ class Graph extends React.PureComponent {
         };
         return `${months[obj.month]} 20${15 + obj.year}`;
       };
-      popup = (
+      if(this.state.time === 5){
+        popup = (
+          <g>
+            <circle cx ={40 + (10 * temp.date_id)} cy={250 - (temp.price * 0.0001)} r="3" color='red' />
+            <PopText x ={40 + (10 * temp.date_id)} y="110">
+              {date(temp.date_id)}
+            </PopText>
+            <PopText x ={40 + (10 * temp.date_id)} y="120">
+              {temp.price}
+            </PopText>
+            <GraphLine x1={40 + (10 * temp.date_id)} x2={40 + (10 * temp.date_id)} y1="200" y2="110" id={temp.date_id} stroke="green" strokeWidth="0.25" />
+          </g>
+        );
+      } else {
+        popup = (
         <g>
-          <circle cx ={40 + (10 * temp.date_id)} cy={250 - (temp.price * 0.0001)} r="3" color='red' />
-          <PopText x ={40 + (10 * temp.date_id)} y="110">
+          <circle cx ={50 * (temp.date_id - 48)} cy={250 - (temp.price * 0.0001)} r="3" color='red' />
+          <PopText x ={50 * (temp.date_id - 48)} y="110">
             {date(temp.date_id)}
           </PopText>
-          <PopText x ={40 + (10 * temp.date_id)} y="120">
+          <PopText x ={50 * (temp.date_id - 48)} y="120">
             {temp.price}
           </PopText>
-          <GraphLine x1={40 + (10 * temp.date_id)} x2={40 + (10 * temp.date_id)} y1="200" y2="110" id={temp.date_id} stroke="green" strokeWidth="0.25" />
+          <GraphLine x1={50 * (temp.date_id - 48)} x2={50 * (temp.date_id - 48)} y1="200" y2="110" id={temp.date_id} stroke="green" strokeWidth="0.25" />
         </g>
-      );
+        )
+      }
     } else {
       popup = null;
     }
-    if(this.state.time === 5){
-      return (
-        <div>
-          <svg viewBox="0 0 750 250">
-            {estimates}
-            {popup}
-            <TrackButton>
-              <g class='button'>
-                <rect/>
-                <text x='582' y='50'>Track This Estimate</text>
-              </g>
-            </TrackButton>
-            <Selection color={this.state.one} className='1' onClick= {this.selectGraph}>
-              <g class = 'year'>
-                <text x='580' y='75'>1 year</text>
-              </g>
-            </Selection>
-            <Selection color={this.state.five} className='5' onClick= {this.selectGraph}>
-              <g class = 'year'>
-                <text x='630' y='75'>5 years</text>
-              </g>
-            </Selection>
-            <InfoText x='90' y='70'>${formatNumber(this.state.current.price)}</InfoText>
-            <Xaxis x="90" y="220">2015</Xaxis>
-            <Xaxis x="210" y="220">2016</Xaxis>
-            <Xaxis x="330" y="220">2017</Xaxis>
-            <Xaxis x="450" y="220">2018</Xaxis>
-            <Xaxis x="570" y="220">2019</Xaxis>
-            <Yaxis x='660' y='192'>$600K</Yaxis>
-            <Yaxis x='660' y='172'>$800K</Yaxis>
-            <Yaxis x='660' y='152'>$1.0M</Yaxis>
-            <Yaxis x='660' y='132'>$1.2M</Yaxis>
-            <Yaxis x='660' y='112'>$1.4M</Yaxis>
-            <Yline x1='40' x2='650' y1 = '190' y2='190' />
-            <Yline x1='40' x2='650' y1 = '170' y2='170' />
-            <Yline x1='40' x2='650' y1 = '150' y2='150' />
-            <Yline x1='40' x2='650' y1 = '130' y2='130' />
-            <Yline x1='40' x2='650' y1 = '110' y2='110' />
-          </svg>
-        </div>
-      );
-    }
-     else if(this.state.time === 1){
-      return(
-        <div>
+    return (
+      <div>
         <svg viewBox="0 0 750 250">
           {estimates}
           {popup}
@@ -285,17 +298,13 @@ class Graph extends React.PureComponent {
               <text x='580' y='75'>1 year</text>
             </g>
           </Selection>
-          <Selection color={this.state.five}  className='5' onClick= {this.selectGraph}>
+          <Selection color={this.state.five} className='5' onClick= {this.selectGraph}>
             <g class = 'year'>
               <text x='630' y='75'>5 years</text>
             </g>
           </Selection>
           <InfoText x='90' y='70'>${formatNumber(this.state.current.price)}</InfoText>
-          <Xaxis x="90" y="220">2015</Xaxis>
-          <Xaxis x="210" y="220">2016</Xaxis>
-          <Xaxis x="330" y="220">2017</Xaxis>
-          <Xaxis x="450" y="220">2018</Xaxis>
-          <Xaxis x="570" y="220">2019</Xaxis>
+          {xaxis}
           <Yaxis x='660' y='192'>$600K</Yaxis>
           <Yaxis x='660' y='172'>$800K</Yaxis>
           <Yaxis x='660' y='152'>$1.0M</Yaxis>
@@ -308,10 +317,7 @@ class Graph extends React.PureComponent {
           <Yline x1='40' x2='650' y1 = '110' y2='110' />
         </svg>
       </div>
-      );
-    } else {
-      return(<div>{console.log(typeof this.state.time)}</div>)
-    }
+    );
   }
 }
 
