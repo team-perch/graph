@@ -76,7 +76,6 @@ class Rec extends React.Component {
             this.setState({
               zipcode: results[0].zipcode,
             });
-            console.log(this.state.rec);
           },
         });
       },
@@ -105,6 +104,7 @@ class Rec extends React.Component {
             <li>Contact</li>
           </ul>
         </View>
+        {image}
       </div>
     );
   }

@@ -21,8 +21,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Graph getZip ={this.getZip} />
-        <Rec zipcode ={this.state.zip} />
+        <div>Redfin Estimates</div>
+        <Graph getZip={this.getZip} />
+        <div>Hello</div>
+        <Rec zipcode={this.state.zip} />
       </div>
     );
   }

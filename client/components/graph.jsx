@@ -8,13 +8,15 @@ const Xaxis = styled.text`
   font: bold;
   font-size: 10px;
   fill: gray;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 300;
 `;
 const Yaxis = styled.text`
   font: italic;
-  font-size: 7px;
+  font-size: 9px;
   fill: gray;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 300;
 `;
 const Yline = styled.line`
   z-index: 1;
@@ -33,50 +35,53 @@ const PopText = styled.text`
   position: absolute;
   fill: green;
   font-size: 8px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: 'Libre Franklin', sans-serif;
+`;
+const PopCircle = styled.circle`
+  position: absolute;
+  fill: black;
 `;
 const InfoText = styled.text`
   z-index: 99;
   position: absolute;
   font-size: 20px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 300;
 `;
-
-const ClickText = styled.text`
+const HeadText = styled.text`
   z-index: 99;
   position: absolute;
-  font-size: 13px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: ${props => props.fontsize || '13px'};
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 300;
 `;
 const ClickLink = styled.a`
   fill: darkcyan;
 `;
 const Selection = styled.g`
   .year text{
-    font-size: 12px;
+    font-size: 9px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 400;
+  }
+  .year a{
     fill: ${props => props.color || 'black'};
     text-decoration: ${props => props.decoration || 'none'};
-    font-family: "Comic Sans MS", cursive, sans-serif;
-  }
-  .year text:hover{
-    fill: dimgray;
-    fill-opacity: 0.7
   }
 `;
 const TrackButton = styled.g`
   .button rect {
-    color: blue;
     z-index: 5;
     stroke: gray;
     stroke-width: 0.5;
     stroke-opacity: 0.1:
     z-index: -1;
-    x: 560;
+    x: 460;
     y: 35;
     rx: 1;
     ry: 1;
-    width: 120;
-    height: 25;
+    width: 115;
+    height: 23;
     fill: darkgray;
     fill-opacity: 0.2;
   }
@@ -85,10 +90,11 @@ const TrackButton = styled.g`
     fill: black;
     fill-opacity: 0.8;
     font-size: 10px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 500;
   }
-
-  .button rect:hover {
-    fill: dimgray;
+  .button rect:hover{
+    fill: gray;
   }
 `;
 class Graph extends React.PureComponent {
@@ -97,7 +103,7 @@ class Graph extends React.PureComponent {
     this.state = {
       prices: [],
       pop: 0,
-      current: { price: 0 },
+      current: {price: 0},
       time: 5,
       five: 'black',
       one: 'gray',
@@ -157,7 +163,7 @@ class Graph extends React.PureComponent {
     this.setState({
       pop: id,
     });
-  }
+  };
 
   selectGraph(e){
     var result = Number(e.target.innerHTML[0])
@@ -181,11 +187,12 @@ class Graph extends React.PureComponent {
     this.setState({
       time: result
     })
-  }
+  };
+
   render() {
     let estimates;
-    let popup;
     let xaxis;
+    let popup;
     if (this.state.prices.length > 0) {
       if(this.state.time === 5){
         estimates = this.state.prices.map((price, key) => {
@@ -193,27 +200,24 @@ class Graph extends React.PureComponent {
             const next = this.state.prices[key + 1];
             return(
               <g onMouseOver={this.showPrice}>
-                <InvisLine x1={40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '110' id= {price.date_id} stroke = 'white' strokeWidth='3' position="relative"/>
-
-                <circle cx ={40 + (10 * price.date_id)} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
-                <GraphLine x1={40 + (10 * price.date_id)} x2={50 + (10 * price.date_id)} y1={250 - (price.price * 0.0001)} y2= {250 - (next.price * 0.0001)} stroke="black" strokeWidth='1' fill='none' />
+                <InvisLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="3" position="relative" />
+                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} stroke="black" strokeWidth="1" fill="none" />
               </g>
             );
           }
           return (
               <g onMouseOver={this.showPrice}>
-                <InvisLine x1={40 + (10 * price.date_id)} x2 = {40 + (10 * price.date_id)} y1 = '230' y2 = '110' id= {price.date_id} stroke='white' stroke-width='3'/>
-                <circle cx ={40 + (10 * price.date_id)} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
+                <InvisLine x1={40 + (8 * price.date_id)} x2={40 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="3" />
               </g>
           );
         });
         xaxis = (
           <g>
-            <Xaxis x="50" y="220">2015</Xaxis>
-            <Xaxis x="170" y="220">2016</Xaxis>
-            <Xaxis x="290" y="220">2017</Xaxis>
-            <Xaxis x="410" y="220">2018</Xaxis>
-            <Xaxis x="530" y="220">2019</Xaxis>
+            <Xaxis x="40" y="220">2015</Xaxis>
+            <Xaxis x="136" y="220">2016</Xaxis>
+            <Xaxis x="232" y="220">2017</Xaxis>
+            <Xaxis x="328" y="220">2018</Xaxis>
+            <Xaxis x="424" y="220">2019</Xaxis>
           </g>
         );
       }
@@ -225,35 +229,33 @@ class Graph extends React.PureComponent {
             key += 1
             return(
               <g onMouseOver={this.showPrice}>
-                <InvisLine x1={(50 * key)} x2 = {(50 * key)} y1 = '230' y2 = '110' id= {price.date_id} stroke = 'white' strokeWidth='3' position="relative"/>
-
-                <circle cx ={(50 * key)} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
-                <GraphLine x1={(50 * key)} x2={50 + (50 * key)} y1={250 - (price.price * 0.0001)} y2= {250 - (next.price * 0.0001)} stroke="black" strokeWidth='1' fill='none' />
+                <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="7" position="relative" />
+                <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} stroke="black" strokeWidth="1" fill="none" />
               </g>
             )
           }
           else {
             return(
               <g onMouseOver={this.showPrice}>
-                <InvisLine x1={(50 * key) + 50} x2 = {(50 * key) + 50} y1 = '230' y2 = '110' id= {price.date_id} stroke='white' stroke-width='3'/>
-                <circle cx ={(50 * key) + 50} cy={250 - (price.price * 0.0001)} r="1" color = 'black' />
+                <InvisLine x1={(45 * key) + 45} x2={(45 * key) + 45} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="7" />
               </g>
             )
           }
         })
         xaxis = (
           <g>
-            <Xaxis x="90" y="220">Feb</Xaxis>
-            <Xaxis x="190" y="220">Apr</Xaxis>
-            <Xaxis x="290" y="220">Jun</Xaxis>
-            <Xaxis x="390" y="220">Aug</Xaxis>
-            <Xaxis x="490" y="220">Oct</Xaxis>
-            <Xaxis x="590" y="220">Dec</Xaxis>
+            <Xaxis x="80" y="220">Feb</Xaxis>
+            <Xaxis x="170" y="220">Apr</Xaxis>
+            <Xaxis x="260" y="220">Jun</Xaxis>
+            <Xaxis x="350" y="220">Aug</Xaxis>
+            <Xaxis x="440" y="220">Oct</Xaxis>
+            <Xaxis x="530" y="220">Dec</Xaxis>
           </g>
         );
       }
     }
     else { estimates = <h2>none</h2>; }
+
     if (this.state.pop > 0) {
       const temp = this.state.prices[this.state.pop - 1];
       const date = (num) => {
@@ -268,71 +270,72 @@ class Graph extends React.PureComponent {
         };
         return `${months[obj.month]} 20${15 + obj.year}`;
       };
-      if(this.state.time === 5){
+      if(this.state.time === 5) {
         popup = (
           <g>
-            <circle cx ={40 + (10 * temp.date_id)} cy={250 - (temp.price * 0.0001)} r="3" color='red' />
-            <PopText x ={40 + (10 * temp.date_id)} y="110">
+            <PopText x={40 + (8 * temp.date_id)} y="110">
               {date(temp.date_id)}
             </PopText>
-            <PopText x ={40 + (10 * temp.date_id)} y="120">
+            <PopText x={40 + (8 * temp.date_id)} y="120">
               {temp.price}
             </PopText>
-            <GraphLine x1={40 + (10 * temp.date_id)} x2={40 + (10 * temp.date_id)} y1="200" y2="110" id={temp.date_id} stroke="green" strokeWidth="0.25" />
+            <line x1={40 + (8 * temp.date_id)} x2={40 + (8 * temp.date_id)} y1="200" y2="110" id={temp.date_id} stroke="darkcyan" strokeWidth="1.25" />
+            <PopCircle cx={40 + (8 * temp.date_id)} cy={250 - (temp.price * 0.0001)} r="3" />
           </g>
         );
       } else {
         popup = (
-        <g>
-          <circle cx ={50 * (temp.date_id - 48)} cy={250 - (temp.price * 0.0001)} r="3" color='red' />
-          <PopText x ={50 * (temp.date_id - 48)} y="110">
-            {date(temp.date_id)}
-          </PopText>
-          <PopText x ={50 * (temp.date_id - 48)} y="120">
-            {temp.price}
-          </PopText>
-          <GraphLine x1={50 * (temp.date_id - 48)} x2={50 * (temp.date_id - 48)} y1="200" y2="110" id={temp.date_id} stroke="green" strokeWidth="0.25" />
-        </g>
-        )
+          <g>
+            <PopText x={45 * (temp.date_id - 48)} y="110">
+              {date(temp.date_id)}
+            </PopText>
+            <PopText x={45 * (temp.date_id - 48)} y="120">
+              {temp.price}
+            </PopText>
+            <line x1={45 * (temp.date_id - 48)} x2={45 * (temp.date_id - 48)} y1="200" y2="110" id={temp.date_id} stroke="darkcyan" strokeWidth="1.25" />
+            <PopCircle cx={45 * (temp.date_id - 48)} cy={250 - (temp.price * 0.0001)} r="3" />
+          </g>
+        );
       }
     } else {
       popup = null;
     }
     return (
       <div>
-        <svg width='800' height='150%' viewBox="0 -50 750 350" preserveAspectRatio='xMinYMin meet'>
+        <svg width="800" height="85%" viewBox="0 -90 750 350" preserveAspectRatio="xMinYMin meet">
           {estimates}
-          {popup}
           <TrackButton>
-            <g class='button'>
-              <rect/>
-              <text x='582' y='50'><a href='#'>Track This Estimate</a></text>
+            <g class="button">
+              <rect tabindex='1'/>
+              <text x="472" y="50">Track This Estimate</text>
             </g>
           </TrackButton>
-          <Selection color={this.state.one} decoration={this.state.onedec} className='1' onClick= {this.selectGraph}>
-            <g class = 'year'>
-              <text x='580' y='75'>1 year</text>
+          <Selection color={this.state.one} className="1" decoration={this.state.onedec} onClick={this.selectGraph}>
+            <g class="year">
+              <text x="500" y="75"><a href="#">1 year</a></text>
             </g>
           </Selection>
-          <Selection color={this.state.five} decoration={this.state.fivedec}className='5' onClick= {this.selectGraph}>
-            <g class = 'year'>
-              <text x='630' y='75'>5 years</text>
+          <Selection color={this.state.five} className="5" decoration={this.state.fivedec} onClick={this.selectGraph}>
+            <g class="year">
+              <text x="535" y="75"><a href="#">5 years</a></text>
             </g>
           </Selection>
-          <ClickText x='90' y='-20' ><ClickLink href='#'>Edit Home Facts</ClickLink> to improve accuracy.</ClickText>
-          <ClickText x='90' y='5' ><ClickLink href='#'>Create an Owner Estimate</ClickLink></ClickText>
-          <InfoText x='90' y='50'>${formatNumber(this.state.current.price)}</InfoText>
+          <HeadText x="35" y="-50" fontsize="20px">Redfin Estimate for {this.state.current.address1}</HeadText>
+          <HeadText x="35" y="-20"><ClickLink href="#">Edit Home Facts</ClickLink> to improve accuracy.</HeadText>
+          <HeadText x="35" y="10" ><ClickLink href="#">Create an Owner Estimate</ClickLink></HeadText>
+          <InfoText x="35" y="50">${formatNumber(this.state.current.price)}</InfoText>
           {xaxis}
-          <Yaxis x='660' y='192'>$600K</Yaxis>
-          <Yaxis x='660' y='172'>$800K</Yaxis>
-          <Yaxis x='660' y='152'>$1.0M</Yaxis>
-          <Yaxis x='660' y='132'>$1.2M</Yaxis>
-          <Yaxis x='660' y='112'>$1.4M</Yaxis>
-          <Yline x1='40' x2='650' y1 = '190' y2='190' />
-          <Yline x1='40' x2='650' y1 = '170' y2='170' />
-          <Yline x1='40' x2='650' y1 = '150' y2='150' />
-          <Yline x1='40' x2='650' y1 = '130' y2='130' />
-          <Yline x1='40' x2='650' y1 = '110' y2='110' />
+          <Yaxis x="550" y="192">$600K</Yaxis>
+          <Yaxis x="550" y="172">$800K</Yaxis>
+          <Yaxis x="550" y="152">$1.0M</Yaxis>
+          <Yaxis x="550" y="132">$1.2M</Yaxis>
+          <Yaxis x="550" y="112">$1.4M</Yaxis>
+          <Yline x1="40" x2="540" y1="190" y2="190" />
+          <Yline x1="40" x2="540" y1="170" y2="170" />
+          <Yline x1="40" x2="540" y1="150" y2="150" />
+          <Yline x1="40" x2="540" y1="130" y2="130" />
+          <Yline x1="40" x2="540" y1="110" y2="110" />
+          {popup}
         </svg>
       </div>
     );
