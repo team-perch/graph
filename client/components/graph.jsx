@@ -38,14 +38,24 @@ const PopText = styled.text`
 const InfoText = styled.text`
   z-index: 99;
   position: absolute;
-  font-size: 12px;
+  font-size: 20px;
   font-family: "Comic Sans MS", cursive, sans-serif;
 `;
 
+const ClickText = styled.text`
+  z-index: 99;
+  position: absolute;
+  font-size: 13px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+`;
+const ClickLink = styled.a`
+  fill: darkcyan;
+`;
 const Selection = styled.g`
   .year text{
     font-size: 12px;
     fill: ${props => props.color || 'black'};
+    text-decoration: ${props => props.decoration || 'none'};
     font-family: "Comic Sans MS", cursive, sans-serif;
   }
   .year text:hover{
@@ -87,10 +97,12 @@ class Graph extends React.PureComponent {
     this.state = {
       prices: [],
       pop: 0,
-      current: {price: 0},
+      current: { price: 0 },
       time: 5,
       five: 'black',
       one: 'gray',
+      fivedec: 'underline',
+      onedec: 'none',
     };
     this.showPrice = this.showPrice.bind(this);
     this.selectGraph = this.selectGraph.bind(this);
@@ -152,13 +164,17 @@ class Graph extends React.PureComponent {
     if(result === 5){
       this.setState({
         five: 'black',
+        fivedec: 'underline',
         one: 'gray',
+        onedec: 'none',
         time: 5
       })
     } else if(result === 1) {
       this.setState({
         one: 'black',
+        onedec: 'underline',
         five: 'gray',
+        fivedec: 'none',
         time: 1
       })
     }
@@ -193,11 +209,11 @@ class Graph extends React.PureComponent {
         });
         xaxis = (
           <g>
-            <Xaxis x="90" y="220">2015</Xaxis>
-            <Xaxis x="210" y="220">2016</Xaxis>
-            <Xaxis x="330" y="220">2017</Xaxis>
-            <Xaxis x="450" y="220">2018</Xaxis>
-            <Xaxis x="570" y="220">2019</Xaxis>
+            <Xaxis x="50" y="220">2015</Xaxis>
+            <Xaxis x="170" y="220">2016</Xaxis>
+            <Xaxis x="290" y="220">2017</Xaxis>
+            <Xaxis x="410" y="220">2018</Xaxis>
+            <Xaxis x="530" y="220">2019</Xaxis>
           </g>
         );
       }
@@ -284,26 +300,28 @@ class Graph extends React.PureComponent {
     }
     return (
       <div>
-        <svg viewBox="0 0 750 250">
+        <svg width='800' height='150%' viewBox="0 -50 750 350" preserveAspectRatio='xMinYMin meet'>
           {estimates}
           {popup}
           <TrackButton>
             <g class='button'>
               <rect/>
-              <text x='582' y='50'>Track This Estimate</text>
+              <text x='582' y='50'><a href='#'>Track This Estimate</a></text>
             </g>
           </TrackButton>
-          <Selection color={this.state.one} className='1' onClick= {this.selectGraph}>
+          <Selection color={this.state.one} decoration={this.state.onedec} className='1' onClick= {this.selectGraph}>
             <g class = 'year'>
               <text x='580' y='75'>1 year</text>
             </g>
           </Selection>
-          <Selection color={this.state.five} className='5' onClick= {this.selectGraph}>
+          <Selection color={this.state.five} decoration={this.state.fivedec}className='5' onClick= {this.selectGraph}>
             <g class = 'year'>
               <text x='630' y='75'>5 years</text>
             </g>
           </Selection>
-          <InfoText x='90' y='70'>${formatNumber(this.state.current.price)}</InfoText>
+          <ClickText x='90' y='-20' ><ClickLink href='#'>Edit Home Facts</ClickLink> to improve accuracy.</ClickText>
+          <ClickText x='90' y='5' ><ClickLink href='#'>Create an Owner Estimate</ClickLink></ClickText>
+          <InfoText x='90' y='50'>${formatNumber(this.state.current.price)}</InfoText>
           {xaxis}
           <Yaxis x='660' y='192'>$600K</Yaxis>
           <Yaxis x='660' y='172'>$800K</Yaxis>
