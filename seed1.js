@@ -28,7 +28,7 @@ const House = sequelize.define('houses', {
   address1: { type: Sequelize.STRING, allowNull: false },
   address2: { type: Sequelize.STRING, allowNull: false },
   sq_ft: { type: Sequelize.INTEGER, allowNull: false },
-  sold_date: { type: Sequelize.DATEONLY, allowNull: false },
+  sold_date: { type: Sequelize.STRING, allowNull: false },
   group_id: {
     type: Sequelize.INTEGER,
     references: {
@@ -77,11 +77,11 @@ sequelize.sync({ force: true }).then(() => {
   }
 }).then(() => {
   for (let i = 0; i < 100; i += 1) {
-    const bednum = faker.number.random({ min: 1, max: 5 });
-    const bathnum = faker.number.random({ min: 1, max: 5 });
-    const price = faker.number.random({ min: 800000, max: 1400000, precision: 1000 });
+    const bednum = faker.random.number({ min: 1, max: 5 });
+    const bathnum = faker.random.number({ min: 1, max: 5 });
+    const price = faker.random.number({ min: 800000, max: 1400000, precision: 1000 });
     const rating = Math.round(Math.random());
-    const img = faker.image.city();
+    const img = `https://redfin-estimates.s3.us-east-2.amazonaws.com/Img${i}.jpg`;
     const obj = {
       imgurl: img,
       rating,
@@ -91,7 +91,7 @@ sequelize.sync({ force: true }).then(() => {
       address1: faker.address.streetAddress(),
       address2: `${cities[Math.floor(Math.random() * 9)]} CA`,
       sq_ft: Math.ceil(Math.random() * 60 + 70) * 10,
-      sold_date: faker.date.between('2000-01-01', '2019-12-01'),
+      sold_date: JSON.stringify(faker.date.between('2000-01-01', '2019-12-01')).substring(1,11),
       group_id: Math.ceil(Math.random() * 10),
     };
     House.create(obj);

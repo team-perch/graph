@@ -9,5 +9,32 @@ module.exports = {
         res.status(200).send(data)
       }
     }, req.params)
+  },
+  getrecentsales: (req, res) => {
+    Model.getrecentsales((error, data)=>{
+      if(error){
+        res.status(400).send(error)
+      } else {
+        res.status(200).send(data)
+      }
+    }, req.params)
+  },
+  getzip: (req, res) => {
+    Model.getzip((error, data)=>{
+      if(error){
+        res.status(400).send(error)
+      } else {
+        res.status(200).send(data)
+      }
+    }, req.params)
+  },
+  gethouseinfo: (req, res) => {
+    Model.gethouseinfo((error, data)=> {
+      if (error) {
+        res.status(400).send(error)
+      } else {
+        res.status(200).send(data)
+      }
+    }, req.params)
   }
 }
