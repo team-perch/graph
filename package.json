@@ -10,7 +10,7 @@
   "scripts": {
     "db-dev": "node ./seed1.js",
     "start": "webpack --watch",
-    "server": "nodemon ./server/index.js",
+    "server": "nodemon ./server/server.js",
     "test": "jest --collectCoverage"
   },
   "dependencies": {

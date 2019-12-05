@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-mixed-operators */
+/* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -16,7 +19,6 @@ function profit(num1, num2) {
   } else {
     result = 'green';
   }
-  console.log(result);
   return result;
 }
 function box(num) {
@@ -25,6 +27,9 @@ function box(num) {
 }
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+function formatThousand(num) {
+  return num / 1000;
 }
 const Xaxis = styled.text`
   font: bold;
@@ -251,7 +256,7 @@ class Graph extends React.PureComponent {
             return (
               <g onMouseOver={this.showPrice}>
                 <InvisLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="3" position="relative" />
-                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)}/>
+                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
@@ -272,13 +277,14 @@ class Graph extends React.PureComponent {
               <g className="net">
                 <text x="40" y="75">
                   <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>
-                    {formatNumber(this.state.current.price - this.state.prices[59].price)}
                     $
+                    {formatThousand(this.state.current.price - this.state.prices[59].price)}
+                    K
                   </tspan>
                 &nbsp;
                 since sold in
                 &nbsp;
-                  {this.state.current.sold_date}
+                  {this.state.current.sold_date.toString().substring(0, 4)}
                 </text>
               </g>
             </EstimateText>
