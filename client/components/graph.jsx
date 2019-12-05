@@ -9,6 +9,8 @@ import styled from 'styled-components';
 
 function profit(num1, num2) {
   let result;
+  num1 = Number(num1);
+  num2 = Number(num2);
   if (num1 < num2) {
     result = 'red';
   } else {
@@ -46,6 +48,9 @@ const Yline = styled.line`
 const GraphLine = styled.line`
   z-index: 2;
   position: absolute;
+  stroke: black;
+  stroke-width: 1.25;
+  fill: black;
 `;
 const InvisLine = styled.line`
   stroke-opacity: 0;
@@ -246,7 +251,7 @@ class Graph extends React.PureComponent {
             return (
               <g onMouseOver={this.showPrice}>
                 <InvisLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="3" position="relative" />
-                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} stroke="black" strokeWidth="1" fill="none" />
+                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)}/>
               </g>
             );
           }
@@ -289,7 +294,7 @@ class Graph extends React.PureComponent {
             return (
               <g onMouseOver={this.showPrice}>
                 <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="7" position="relative" />
-                <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} stroke="black" strokeWidth="1" fill="none" />
+                <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
@@ -310,13 +315,12 @@ class Graph extends React.PureComponent {
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
-                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>
-                    {formatNumber(this.state.current.price - this.state.prices[59].price)}
-                    $
+                  <tspan diff={profit(this.state.prices[59].price, this.state.prices[48].price)}>
+                    {(this.state.prices[59].price - this.state.prices[48].price) / this.state.prices[48].price * 100}
+                    %
                   </tspan>
                 &nbsp;
-                since sold in
-                  {this.state.current.sold_date.substring}
+                last 12 months
                 </text>
               </g>
             </EstimateText>

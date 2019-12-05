@@ -12,9 +12,7 @@ const View = styled.div`
   .navigation {
     list-style: none;
     margin: 0;
-
-    background: deepskyblue;
-
+    background: gray;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -30,7 +28,7 @@ const View = styled.div`
     margin: auto;
     display: block;
     padding: 1em;
-    color: white;
+    color: black;
     align-content: center;
     align-text: center;
   }
@@ -45,6 +43,7 @@ class Rec extends React.Component {
     this.state = {
       zipcode: '',
       rec: [],
+      page: 1,
     };
   }
 
@@ -88,15 +87,20 @@ class Rec extends React.Component {
   render() {
     let image;
     if (this.state.rec.length > 0) {
-      image = this.state.rec.map((rec) => (
-        <img src={rec.imgurl} />
-      ));
+      image = this.state.rec.map((rec, key) => {
+        if(key < 6){
+          return(
+            <img width = '100' height = '100' src={rec.imgurl} />
+          )
+        }
+      });
     } else {
       image = <h2>No images</h2>;
     }
     return (
       <div>
         <h1>{this.state.zipcode}</h1>
+        {image}
         <View>
           <ul className="navigation">
             <li>Home</li>
@@ -105,7 +109,6 @@ class Rec extends React.Component {
             <li>Contact</li>
           </ul>
         </View>
-        {image}
       </div>
     );
   }
