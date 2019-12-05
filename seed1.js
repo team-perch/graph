@@ -28,7 +28,7 @@ const House = sequelize.define('houses', {
   address1: { type: Sequelize.STRING, allowNull: false },
   address2: { type: Sequelize.STRING, allowNull: false },
   sq_ft: { type: Sequelize.INTEGER, allowNull: false },
-  sold_date: { type: Sequelize.DATEONLY, allowNull: false },
+  sold_date: { type: Sequelize.STRING, allowNull: false },
   group_id: {
     type: Sequelize.INTEGER,
     references: {
@@ -91,7 +91,7 @@ sequelize.sync({ force: true }).then(() => {
       address1: faker.address.streetAddress(),
       address2: `${cities[Math.floor(Math.random() * 9)]} CA`,
       sq_ft: Math.ceil(Math.random() * 60 + 70) * 10,
-      sold_date: faker.date.between('2000-01-01', '2019-12-01'),
+      sold_date: JSON.stringify(faker.date.between('2000-01-01', '2019-12-01')).substring(1,11),
       group_id: Math.ceil(Math.random() * 10),
     };
     House.create(obj);
