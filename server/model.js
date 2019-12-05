@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
@@ -10,7 +11,6 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) {
     console.error(`error connecting: ${err.stack}`);
-    return;
   }
 });
 
@@ -37,11 +37,11 @@ module.exports = {
         callback(error, null);
       } else {
         const groupid = data[0].group_id;
-        connection.query(`select * from houses where houses.group_id = ${groupid}`, (error, data) => {
-          if (error) {
-            callback(error, null);
+        connection.query(`select * from houses where houses.group_id = ${groupid}`, (err, result) => {
+          if (err) {
+            callback(err, null);
           } else {
-            callback(null, data);
+            callback(null, result);
           }
         });
       }

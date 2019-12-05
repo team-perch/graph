@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable import/extensions */
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from '../client/app.jsx';
@@ -12,9 +14,10 @@ describe('App test with enzyme and jest', () => {
   });
   it('Graph renders graph element properly', () => {
     const wrapper = shallow(<Graph />);
-    expect(wrapper.children().length).toBe(1);
-    expect(wrapper.children().children().containsAllMatchingElements([<svg />]));
-    expect(wrapper.children().children().children().containsAllMatchingElements([<g />, <text />, <line />]));
+    const child = wrapper.children();
+    expect(child.length).toBe(1);
+    expect(child.children().containsAllMatchingElements([<svg />]));
+    expect(child.children().children().containsAllMatchingElements([<text />, <line />]));
     console.log(wrapper.debug());
   });
 });

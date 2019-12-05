@@ -1,3 +1,8 @@
+/* eslint-disable func-names */
+/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
@@ -71,13 +76,14 @@ const EstimateText = styled.g`
   }
   .net tspan{
     fill: ${(props) => {
-      let prop = props.children.props.children.props.children[0].props.diff
-      if (prop === 'green') {
-        return 'green';
-      } else if (prop === 'red'){
-        return 'red';
-      } else{ return 'blue'; }
-    }}
+    const prop = props.children.props.children.props.children[0].props.diff;
+    if (prop === 'green') {
+      return 'green';
+    } if (prop === 'red') {
+      return 'red';
+    }
+    return 'blue';
+  }}
   }
 `;
 const InfoText = styled.text`
@@ -260,7 +266,10 @@ class Graph extends React.PureComponent {
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
-                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>{formatNumber(this.state.current.price - this.state.prices[59].price)}$</tspan>
+                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>
+                    {formatNumber(this.state.current.price - this.state.prices[59].price)}
+                    $
+                  </tspan>
                 &nbsp;
                 since sold in
                 &nbsp;
@@ -275,6 +284,7 @@ class Graph extends React.PureComponent {
         estimates = arr.map((price, key) => {
           if (key < 11) {
             const next = arr[key + 1];
+            // eslint-disable-next-line no-param-reassign
             key += 1;
             return (
               <g onMouseOver={this.showPrice}>
@@ -300,7 +310,10 @@ class Graph extends React.PureComponent {
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
-                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>${formatNumber(this.state.current.price - this.state.prices[59].price)}$</tspan>
+                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>
+                    {formatNumber(this.state.current.price - this.state.prices[59].price)}
+                    $
+                  </tspan>
                 &nbsp;
                 since sold in
                   {this.state.current.sold_date.substring}
@@ -378,7 +391,7 @@ class Graph extends React.PureComponent {
           {estimates}
           <TrackButton>
             <g className="button">
-              <rect tabIndex="1" />
+              <rect tabIndex="-1" />
               <text x="472" y="50">Track This Estimate</text>
             </g>
           </TrackButton>
@@ -393,14 +406,14 @@ class Graph extends React.PureComponent {
             </g>
           </Selection>
           <HeadText x="35" y="-50" fontsize="20px">
-Redfin Estimate for
+            Redfin Estimate for
             {' '}
             {this.state.current.address1}
           </HeadText>
           <HeadText x="35" y="-20">
             <ClickLink href="#">Edit Home Facts</ClickLink>
             {' '}
-to improve accuracy.
+            to improve accuracy.
           </HeadText>
           <HeadText x="35" y="10"><ClickLink href="#">Create an Owner Estimate</ClickLink></HeadText>
           <InfoText x="35" y="50">

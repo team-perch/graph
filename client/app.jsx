@@ -1,7 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable import/extensions */
 import React from 'react';
-import styled from 'styled-components';
-import Graph from './components/graph.jsx'
-import Rec from './components/rec.jsx'
+import Graph from './components/graph.jsx';
+import Rec from './components/rec.jsx';
 
 class App extends React.Component {
   constructor(props) {

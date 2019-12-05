@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable func-names */
 import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
@@ -85,19 +88,17 @@ class Rec extends React.Component {
   render() {
     let image;
     if (this.state.rec.length > 0) {
-      image = this.state.rec.map((rec, key) => {
-        return (
-          <img src = {rec.imgurl}/>
-        )
-      });
+      image = this.state.rec.map((rec) => (
+        <img src={rec.imgurl} />
+      ));
     } else {
-      image = <h2>No images</h2>
+      image = <h2>No images</h2>;
     }
     return (
       <div>
         <h1>{this.state.zipcode}</h1>
         <View>
-          <ul class= 'navigation'>
+          <ul className="navigation">
             <li>Home</li>
             <li>About</li>
             <li>Products</li>
