@@ -1,12 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable import/extensions */
 import React from 'react';
+import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import Graph from './components/graph.jsx';
 import Rec from './components/rec.jsx';
-import styled from 'styled-components';
-import { createGlobalStyle } from "styled-components";
-const GlobalStyles = createGlobalStyle`
 
+const GlobalStyles = createGlobalStyle`
+  html{
+    scroll-behavior: smooth;
+  }
   body {
     padding-left: 60px;
     top: -200px;
@@ -14,12 +17,16 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 const InfoText = styled.div`
-  margin-top: 20px;
-  font-size: 12px;
-  color: rgb(64,64,64);
+  margin-top: 25px;
+  font-size: 11px;
+  color: rgb(84,84,84);
   margin-left: 40px;
   margin-bottom: 20px;
   font-family: 'Libre Franklin', sans-serif;
+`;
+const InfoIcon = styled.span`
+  font-size: 12px;
+  color: rgb(214,214,214);
 `;
 class App extends React.Component {
   constructor(props) {
@@ -39,9 +46,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <GlobalStyles/>
+        <GlobalStyles />
         <Graph getZip={this.getZip} />
-        <InfoText>Redfins Estimate based on recent home sales.</InfoText>
+        <InfoText>
+          Redfins Estimate based on recent home sales.&nbsp;
+          <InfoIcon className="fas" onClick={()=>{}}>&#xf05a;</InfoIcon>
+        </InfoText>
         <Rec zipcode={this.state.zip} />
       </div>
     );
