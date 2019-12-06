@@ -9,7 +9,7 @@
   },
   "scripts": {
     "db-dev": "node ./seed1.js",
-    "start": "webpack --watch",
+    "start": "webpack -d --watch",
     "server": "nodemon ./server/server.js",
     "test": "jest --collectCoverage"
   },
@@ -26,6 +26,7 @@
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-icons": "^3.8.0",
     "sequelize": "^5.21.2",
     "sinon": "^7.5.0",
     "styled-components": "^5.0.0-rc.2",

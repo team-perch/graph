@@ -10,6 +10,16 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
+function formatPercent (num){
+  var arr = num.toString().split('')
+  let key;
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i] === '.'){
+      key = i;
+    }
+  }
+  return num.toString().substring(0, key);
+}
 function profit(num1, num2) {
   let result;
   num1 = Number(num1);
@@ -106,7 +116,7 @@ const InfoText = styled.text`
 const HeadText = styled.text`
   z-index: 99;
   position: absolute;
-  font-size: ${(props) => props.fontsize || '13px'};
+  font-size: ${(props) => props.fontsize || '12px'};
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 300;
 `;
@@ -161,7 +171,7 @@ class Graph extends React.PureComponent {
       current: { },
       time: 5,
       five: 'black',
-      one: 'gray',
+      one: 'lightgray',
       fivedec: 'underline',
       onedec: 'none',
     };
@@ -226,7 +236,7 @@ class Graph extends React.PureComponent {
       this.setState({
         five: 'black',
         fivedec: 'underline',
-        one: 'gray',
+        one: 'lightgray',
         onedec: 'none',
         time: 5,
       });
@@ -234,7 +244,7 @@ class Graph extends React.PureComponent {
       this.setState({
         one: 'black',
         onedec: 'underline',
-        five: 'gray',
+        five: 'lightgray',
         fivedec: 'none',
         time: 1,
       });
@@ -268,11 +278,11 @@ class Graph extends React.PureComponent {
         });
         xaxis = (
           <g>
-            <Xaxis x="40" y="220">2015</Xaxis>
-            <Xaxis x="136" y="220">2016</Xaxis>
-            <Xaxis x="232" y="220">2017</Xaxis>
-            <Xaxis x="328" y="220">2018</Xaxis>
-            <Xaxis x="424" y="220">2019</Xaxis>
+            <Xaxis x="40" y="210">2015</Xaxis>
+            <Xaxis x="136" y="210">2016</Xaxis>
+            <Xaxis x="232" y="210">2017</Xaxis>
+            <Xaxis x="328" y="210">2018</Xaxis>
+            <Xaxis x="424" y="210">2019</Xaxis>
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
@@ -312,17 +322,17 @@ class Graph extends React.PureComponent {
         });
         xaxis = (
           <g>
-            <Xaxis x="80" y="220">Feb</Xaxis>
-            <Xaxis x="170" y="220">Apr</Xaxis>
-            <Xaxis x="260" y="220">Jun</Xaxis>
-            <Xaxis x="350" y="220">Aug</Xaxis>
-            <Xaxis x="440" y="220">Oct</Xaxis>
-            <Xaxis x="530" y="220">Dec</Xaxis>
+            <Xaxis x="80" y="210">Feb</Xaxis>
+            <Xaxis x="170" y="210">Apr</Xaxis>
+            <Xaxis x="260" y="210">Jun</Xaxis>
+            <Xaxis x="350" y="210">Aug</Xaxis>
+            <Xaxis x="440" y="210">Oct</Xaxis>
+            <Xaxis x="530" y="210">Dec</Xaxis>
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
                   <tspan diff={profit(this.state.prices[59].price, this.state.prices[48].price)}>
-                    {(this.state.prices[59].price - this.state.prices[48].price) / this.state.prices[48].price * 100}
+                    {formatPercent((this.state.prices[59].price - this.state.prices[48].price) / this.state.prices[48].price * 100)}
                     %
                   </tspan>
                 &nbsp;
@@ -396,8 +406,8 @@ class Graph extends React.PureComponent {
       infoprice = 'None';
     }
     return (
-      <div>
-        <svg width="800" height="85%" viewBox="0 -90 750 350" preserveAspectRatio="xMinYMin meet">
+      <div height="700px">
+        <svg width="750" height="300" viewBox="0 -90 750 300" preserveAspectRatio="xMinYMin meet">
           {estimates}
           <TrackButton>
             <g className="button">
@@ -415,7 +425,7 @@ class Graph extends React.PureComponent {
               <text x="535" y="75"><a href="#">5 years</a></text>
             </g>
           </Selection>
-          <HeadText x="35" y="-50" fontsize="20px">
+          <HeadText x="35" y="-50" fontsize="18px">
             Redfin Estimate for
             {' '}
             {this.state.current.address1}
