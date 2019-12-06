@@ -89,7 +89,7 @@ sequelize.sync({ force: true }).then(() => {
       bath: bathnum,
       price,
       address1: faker.address.streetAddress(),
-      address2: `${cities[Math.floor(Math.random() * 9)]} CA`,
+      address2: `${cities[Math.floor(Math.random() * 9)]}, CA`,
       sq_ft: Math.ceil(Math.random() * 60 + 70) * 10,
       sold_date: JSON.stringify(faker.date.between('2000-01-01', '2019-12-01')).substring(1, 11),
       group_id: Math.ceil(Math.random() * 10),

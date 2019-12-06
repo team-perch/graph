@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
@@ -7,6 +8,9 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
 function formatSoldDate(string) {
   const { length } = string;
   const day = string.substring(length - 2, length);
@@ -20,7 +24,7 @@ function formatSoldDate(string) {
   return `${months[Number(month) + 1].toUpperCase()} ${day},${year}`;
 }
 const View = styled.div`
-  width: 580px;
+  width: 620px;
   height: 250px;
   align: left;
   .navigation {
@@ -36,13 +40,56 @@ const View = styled.div`
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
-    overflow: auto;
+    overflow: hidden;
+    transition: .55s ease
   }
   #page1 {
+    display: block;
+    visibility: ${(props) => {
+    const temp = props.children.props.children[0];
+    if (temp) {
+      if (temp[0]) {
+        if (temp[0].props.currentpage === 1) {
+          return 'visible';
+        }
+        return 'hidden';
+      }
+    }
+    return 'hidden';
+  }
+}
   }
   #page2 {
+    display: block;
+    visibility: ${(props) => {
+    const temp = props.children.props.children[0];
+    if (temp) {
+      if (temp[0]) {
+        if (temp[0].props.currentpage === 2) {
+          return 'visible';
+        }
+        return 'hidden';
+      }
+    }
+    return 'hidden';
+  }
+}
   }
   #page3 {
+    display: block;
+    visibility: ${(props) => {
+    const temp = props.children.props.children[0];
+    if (temp) {
+      if (temp[0]) {
+        if (temp[0].props.currentpage === 3) {
+          return 'visible';
+        }
+        return 'hidden';
+      }
+    }
+    return 'hidden';
+  }
+}
   }
   img {
     filter: hue-rotate(90deg);
@@ -50,10 +97,28 @@ const View = styled.div`
 `;
 const InfoText = styled.text`
   fill: whitesmoke;
-  font-size: 8px;
+  font-size: 11px;
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 500;
   `;
+const AddText = styled.text`
+  fill: whitesmoke;
+  font-size: 9px;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 400;
+  `;
+const CityText = styled.text`
+  fill: silver;
+  font-size: 8px;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 300;
+  `;
+const SoldText = styled.text`
+  fill: whitesmoke;
+  font-size: 8px;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 500;
+`;
 const SoldBox = styled.rect`
   width: 80;
   height: 12;
@@ -71,6 +136,19 @@ const IconBox = styled.rect`
 const Star = styled.text`
   font-size: 10px;
   fill: rgb(254,184,64);
+`;
+const Arrow = styled.g`
+  fill: black;
+  stroke-width: 0.2;
+  fill-opacity: 0.6;
+  transform: translate(155px, 15px);
+`;
+const Button = styled.g`
+  fill: white;
+  stroke: rgb(80,80,80);
+  stroke-width: 0.5;
+  stroke-opacity: 0.7;
+  transform: scale(1.555);
 `;
 // const Buttons = styled.div`
 //    a {
@@ -171,11 +249,11 @@ class Rec extends React.Component {
       page2,
       page3,
     });
-    console.log(this.state.page1[0].rating);
   }
 
   click(e) {
-    const direction = e.target.className;
+    const direction = e.target.parentNode.parentNode.className.baseVal;
+    const arr = document.getElementsByTagName('li');
     let pageview;
     if (direction === 'next') {
       pageview = this.state.page;
@@ -183,6 +261,10 @@ class Rec extends React.Component {
       this.setState({
         page: pageview,
       });
+      arr[2].style.transform = 'translate(-615.5px)';
+      arr[3].style.transform = 'translate(-615.5px)';
+      arr[4].style.transform = 'translate(-1220px)';
+      arr[5].style.transform = 'translate(-1220px)';
     } else if (direction === 'previous') {
       pageview = this.state.page;
       pageview -= 1;
@@ -198,16 +280,31 @@ class Rec extends React.Component {
     let image3;
     if (this.state.rec.length > 0) {
       image1 = this.state.page1.map((rec, key) => {
+        let rightarrow;
         let rating;
-        if(rec.rating === 1){
-          rating = <Star x="40" y="112">&#9733;</Star>
-        } else{
-          rating = null
+        if (rec.rating === 1) {
+          rating = <Star x="40" y="112">&#9733;</Star>;
+        } else {
+          rating = null;
+        }
+        if (key === 1) {
+          rightarrow = (
+            <svg x="110" y="50" className="next">
+              <Button>
+                <circle cx="110" cy="20" r="10" onClick={this.click} />
+              </Button>
+              <Arrow>
+                <path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z" onClick={this.click} />
+              </Arrow>
+            </svg>
+          );
+        } else {
+          rightarrow = null;
         }
         if (key < 6) {
           return (
-            <li id="page1">
-              <svg width="275px" height="150px" position="absolute" fill="white">
+            <li id="page1" currentpage={this.state.page}>
+              <svg width="310px" height="150px" position="absolute" fill="white" currentpage={this.state.page}>
                 <filter id="darken">
                   <feColorMatrix
                     type="matrix"
@@ -217,22 +314,32 @@ class Rec extends React.Component {
                              0   0   0   1   0 "
                   />
                 </filter>
-                <image href={rec.imgurl} height="200px" width="375px" filter="url(#darken)" />
+                <image href={rec.imgurl} height="160px" width="300px" filter="url(#darken)" />
                 <rect />
                 <SoldBox x="27" y="6" rx="2" ry="2" />
-                <IconBox x='32' y='109' rx="2" ry="2"/>
-                <svg x='33' y='110'>
-                  <Icon >
-                    <path d="M256 19.27L25.637 249.638 19.27 256 32 268.73l6.363-6.367L256 44.727l217.637 217.636L480 268.73 492.73 256l-6.367-6.363zM96 48v107.273l64-64.002V48zm160 20.727l-192 192V486h64V320h96v166h224V260.727zM288 320h96v80h-96z"/>
+                <IconBox x="32" y="109" rx="2" ry="2" />
+                <svg x="33" y="110">
+                  <Icon>
+                    <path d="M256 19.27L25.637 249.638 19.27 256 32 268.73l6.363-6.367L256 44.727l217.637 217.636L480 268.73 492.73 256l-6.367-6.363zM96 48v107.273l64-64.002V48zm160 20.727l-192 192V486h64V320h96v166h224V260.727zM288 320h96v80h-96z" />
                   </Icon>
                 </svg>
-                <InfoText x="30" y="15">
+                <SoldText x="30" y="15">
                   SOLD
                   {' '}
                   {formatSoldDate(rec.sold_date)}
-                </InfoText>
+                </SoldText>
                 {rating}
-                <InfoText></InfoText>
+                <InfoText x="50" y="120">
+                  $
+                  {formatNumber(rec.price)}
+                </InfoText>
+                <AddText x="30" y="133">{rec.address1}</AddText>
+                <CityText x="30" y="145">{`${rec.address2.toUpperCase()} ${this.state.zipcode}`}</CityText>
+                <AddText x="175" y="133">Beds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Baths&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sq. Ft.</AddText>
+                <InfoText x="180" y="123">{rec.bed}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.bath}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.sq_ft}</InfoText>
+                <line x1="202" x2="202" y1="133" y2="113" stroke='white' stroke-width='0.8' stroke-opacity='0.8'/>
+                <line x1="236" x2="236" y1="133" y2="113" stroke='white' stroke-width='0.8' stroke-opacity='0.8'/>
+                {rightarrow}
               </svg>
             </li>
           );
@@ -240,10 +347,46 @@ class Rec extends React.Component {
         return null;
       });
       image2 = this.state.page2.map((rec, key) => {
+        let rating;
+        let rightarrow;
+        let leftarrow;
+        if (rec.rating === 1) {
+          rating = <Star x="40" y="112">&#9733;</Star>;
+        } else {
+          rating = null;
+        }
+        if (key === 1) {
+          rightarrow = (
+            <svg x="110" y="50" className="next">
+              <Button>
+                <circle cx="110" cy="20" r="10" onClick={this.click} />
+              </Button>
+              <Arrow>
+                <path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z" onClick={this.click} />
+              </Arrow>
+            </svg>
+          );
+        } else {
+          rightarrow = null;
+        }
+        if (key === 0) {
+          leftarrow = (
+            <svg x="-154" y="50" className="previous">
+              <Button>
+                <circle cx="110" cy="20" r="10" onClick={this.click} />
+              </Button>
+              <Arrow>
+                <path d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z" />
+              </Arrow>
+            </svg>
+          );
+        } else {
+          leftarrow = null;
+        }
         if (key < 6) {
           return (
-            <li id="page2">
-              <svg width="275px" height="150px" position="absolute" fill="white">
+            <li id="page2" currentpage={this.state.page}>
+              <svg width="300px" height="150px" position="absolute" fill="white">
                 <filter id="darken">
                   <feColorMatrix
                     type="matrix"
@@ -253,12 +396,33 @@ class Rec extends React.Component {
                              0   0   0   1   0 "
                   />
                 </filter>
-                <image href={rec.imgurl} height="200px" width="375px" filter="url(#darken)" />
-                <InfoText x="30" y="15">
+                <image href={rec.imgurl} height="160px" width="300px" filter="url(#darken)" />
+                <rect />
+                <SoldBox x="27" y="6" rx="2" ry="2" />
+                <IconBox x="32" y="109" rx="2" ry="2" />
+                <svg x="33" y="110">
+                  <Icon>
+                    <path d="M256 19.27L25.637 249.638 19.27 256 32 268.73l6.363-6.367L256 44.727l217.637 217.636L480 268.73 492.73 256l-6.367-6.363zM96 48v107.273l64-64.002V48zm160 20.727l-192 192V486h64V320h96v166h224V260.727zM288 320h96v80h-96z" />
+                  </Icon>
+                </svg>
+                <SoldText x="30" y="15">
                   SOLD
                   {' '}
                   {formatSoldDate(rec.sold_date)}
+                </SoldText>
+                {rating}
+                <InfoText x="50" y="120">
+                  $
+                  {formatNumber(rec.price)}
                 </InfoText>
+                <AddText x="30" y="133">{rec.address1}</AddText>
+                <CityText x="30" y="145">{`${rec.address2.toUpperCase()} ${this.state.zipcode}`}</CityText>
+                <AddText x="175" y="133">Beds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Baths&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sq. Ft.</AddText>
+                <InfoText x="180" y="123">{rec.bed}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.bath}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.sq_ft}</InfoText>
+                <line x1="202" x2="202" y1="133" y2="113" stroke='white' stroke-width='0.8' stroke-opacity='0.8'/>
+                <line x1="236" x2="236" y1="133" y2="113" stroke='white' stroke-width='0.8' stroke-opacity='0.8'/>
+                {rightarrow}
+                {leftarrow}
               </svg>
             </li>
           );
@@ -266,11 +430,31 @@ class Rec extends React.Component {
         return null;
       });
       image3 = this.state.page3.map((rec, key) => {
+        let rating;
+        let leftarrow;
+        if (rec.rating === 1) {
+          rating = <Star x="40" y="112">&#9733;</Star>;
+        } else {
+          rating = null;
+        }
+        if (key === 0) {
+          leftarrow = (
+            <svg x="-154" y="50" className="previous">
+              <Button>
+                <circle cx="110" cy="20" r="10" onClick={this.click} />
+              </Button>
+              <Arrow>
+                <path d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z" />
+              </Arrow>
+            </svg>
+          );
+        } else {
+          leftarrow = null;
+        }
         if (key < 6) {
-          console.log(rec);
           return (
-            <li id="page3">
-              <svg width="275px" height="150px" position="absolute" fill="white">
+            <li id="page3" currentpage={this.state.page}>
+              <svg width="300px" height="150px" position="absolute" fill="white">
                 <filter id="darken">
                   <feColorMatrix
                     type="matrix"
@@ -280,12 +464,32 @@ class Rec extends React.Component {
                              0   0   0   1   0 "
                   />
                 </filter>
-                <image href={rec.imgurl} height="200px" width="375px" filter="url(#darken)" />
-                <InfoText x="30" y="15">
+                <image href={rec.imgurl} height="160px" width="300px" filter="url(#darken)" />
+                <rect />
+                <SoldBox x="27" y="6" rx="2" ry="2" />
+                <IconBox x="32" y="109" rx="2" ry="2" />
+                <svg x="33" y="110">
+                  <Icon>
+                    <path d="M256 19.27L25.637 249.638 19.27 256 32 268.73l6.363-6.367L256 44.727l217.637 217.636L480 268.73 492.73 256l-6.367-6.363zM96 48v107.273l64-64.002V48zm160 20.727l-192 192V486h64V320h96v166h224V260.727zM288 320h96v80h-96z" />
+                  </Icon>
+                </svg>
+                <SoldText x="30" y="15">
                   SOLD
                   {' '}
                   {formatSoldDate(rec.sold_date)}
+                </SoldText>
+                {rating}
+                <InfoText x="50" y="120">
+                  $
+                  {formatNumber(rec.price)}
                 </InfoText>
+                <AddText x="30" y="133">{rec.address1}</AddText>
+                <CityText x="30" y="145">{`${rec.address2.toUpperCase()} ${this.state.zipcode}`}</CityText>
+                <AddText x="175" y="133">Beds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Baths&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sq. Ft.</AddText>
+                <InfoText x="180" y="123">{rec.bed}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.bath}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.sq_ft}</InfoText>
+                <line x1="202" x2="202" y1="133" y2="113" stroke='white' stroke-width='0.8' stroke-opacity='0.8'/>
+                <line x1="236" x2="236" y1="133" y2="113" stroke='white' stroke-width='0.8' stroke-opacity='0.8'/>
+                {leftarrow}
               </svg>
             </li>
           );
