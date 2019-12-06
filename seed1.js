@@ -76,7 +76,7 @@ sequelize.sync({ force: true }).then(() => {
     }
   }
 }).then(() => {
-  for (let i = 0; i < 100; i += 1) {
+  for (let i = 1; i < 101; i += 1) {
     const bednum = faker.random.number({ min: 1, max: 5 });
     const bathnum = faker.random.number({ min: 1, max: 5 });
     const price = faker.random.number({ min: 800000, max: 1400000, precision: 1000 });
@@ -91,7 +91,7 @@ sequelize.sync({ force: true }).then(() => {
       address1: faker.address.streetAddress(),
       address2: `${cities[Math.floor(Math.random() * 9)]} CA`,
       sq_ft: Math.ceil(Math.random() * 60 + 70) * 10,
-      sold_date: JSON.stringify(faker.date.between('2000-01-01', '2019-12-01')).substring(1,11),
+      sold_date: JSON.stringify(faker.date.between('2000-01-01', '2019-12-01')).substring(1, 11),
       group_id: Math.ceil(Math.random() * 10),
     };
     House.create(obj);

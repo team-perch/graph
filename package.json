@@ -9,9 +9,9 @@
   },
   "scripts": {
     "db-dev": "node ./seed1.js",
-    "start": "webpack --watch",
-    "server": "nodemon ./server/index.js",
-    "test": "jest"
+    "start": "webpack -d --watch",
+    "server": "nodemon ./server/server.js",
+    "test": "jest --collectCoverage"
   },
   "dependencies": {
     "babel-loader": "^8.0.6",
@@ -26,6 +26,7 @@
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-icons": "^3.8.0",
     "sequelize": "^5.21.2",
     "sinon": "^7.5.0",
     "styled-components": "^5.0.0-rc.2",
@@ -50,6 +51,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
-    "react-test-renderer": "^16.12.0"
+    "react-test-renderer": "^16.12.0",
+    "supertest": "^4.0.2"
   }
 }

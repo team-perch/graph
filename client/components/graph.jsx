@@ -1,15 +1,34 @@
+/* eslint-disable max-len */
+/* eslint-disable no-mixed-operators */
+/* eslint-disable no-param-reassign */
+/* eslint-disable func-names */
+/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
+function formatPercent (num){
+  var arr = num.toString().split('')
+  let key;
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i] === '.'){
+      key = i;
+    }
+  }
+  return num.toString().substring(0, key);
+}
 function profit(num1, num2) {
   let result;
+  num1 = Number(num1);
+  num2 = Number(num2);
   if (num1 < num2) {
     result = 'red';
   } else {
     result = 'green';
   }
-  console.log(result);
   return result;
 }
 function box(num) {
@@ -18,6 +37,9 @@ function box(num) {
 }
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+function formatThousand(num) {
+  return num / 1000;
 }
 const Xaxis = styled.text`
   font: bold;
@@ -41,6 +63,9 @@ const Yline = styled.line`
 const GraphLine = styled.line`
   z-index: 2;
   position: absolute;
+  stroke: black;
+  stroke-width: 1.25;
+  fill: black;
 `;
 const InvisLine = styled.line`
   stroke-opacity: 0;
@@ -71,13 +96,14 @@ const EstimateText = styled.g`
   }
   .net tspan{
     fill: ${(props) => {
-      let prop = props.children.props.children.props.children[0].props.diff
-      if (prop === 'green') {
-        return 'green';
-      } else if (prop === 'red'){
-        return 'red';
-      } else{ return 'blue'; }
-    }}
+    const prop = props.children.props.children.props.children[0].props.diff;
+    if (prop === 'green') {
+      return 'green';
+    } if (prop === 'red') {
+      return 'red';
+    }
+    return 'blue';
+  }}
   }
 `;
 const InfoText = styled.text`
@@ -90,7 +116,7 @@ const InfoText = styled.text`
 const HeadText = styled.text`
   z-index: 99;
   position: absolute;
-  font-size: ${(props) => props.fontsize || '13px'};
+  font-size: ${(props) => props.fontsize || '12px'};
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 300;
 `;
@@ -145,7 +171,7 @@ class Graph extends React.PureComponent {
       current: { },
       time: 5,
       five: 'black',
-      one: 'gray',
+      one: 'lightgray',
       fivedec: 'underline',
       onedec: 'none',
     };
@@ -210,7 +236,7 @@ class Graph extends React.PureComponent {
       this.setState({
         five: 'black',
         fivedec: 'underline',
-        one: 'gray',
+        one: 'lightgray',
         onedec: 'none',
         time: 5,
       });
@@ -218,7 +244,7 @@ class Graph extends React.PureComponent {
       this.setState({
         one: 'black',
         onedec: 'underline',
-        five: 'gray',
+        five: 'lightgray',
         fivedec: 'none',
         time: 1,
       });
@@ -240,7 +266,7 @@ class Graph extends React.PureComponent {
             return (
               <g onMouseOver={this.showPrice}>
                 <InvisLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="3" position="relative" />
-                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} stroke="black" strokeWidth="1" fill="none" />
+                <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
@@ -252,19 +278,23 @@ class Graph extends React.PureComponent {
         });
         xaxis = (
           <g>
-            <Xaxis x="40" y="220">2015</Xaxis>
-            <Xaxis x="136" y="220">2016</Xaxis>
-            <Xaxis x="232" y="220">2017</Xaxis>
-            <Xaxis x="328" y="220">2018</Xaxis>
-            <Xaxis x="424" y="220">2019</Xaxis>
+            <Xaxis x="40" y="210">2015</Xaxis>
+            <Xaxis x="136" y="210">2016</Xaxis>
+            <Xaxis x="232" y="210">2017</Xaxis>
+            <Xaxis x="328" y="210">2018</Xaxis>
+            <Xaxis x="424" y="210">2019</Xaxis>
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
-                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>{formatNumber(this.state.current.price - this.state.prices[59].price)}$</tspan>
+                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>
+                    $
+                    {formatThousand(this.state.current.price - this.state.prices[59].price)}
+                    K
+                  </tspan>
                 &nbsp;
                 since sold in
                 &nbsp;
-                  {this.state.current.sold_date}
+                  {this.state.current.sold_date.toString().substring(0, 4)}
                 </text>
               </g>
             </EstimateText>
@@ -275,11 +305,12 @@ class Graph extends React.PureComponent {
         estimates = arr.map((price, key) => {
           if (key < 11) {
             const next = arr[key + 1];
+            // eslint-disable-next-line no-param-reassign
             key += 1;
             return (
               <g onMouseOver={this.showPrice}>
                 <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="7" position="relative" />
-                <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} stroke="black" strokeWidth="1" fill="none" />
+                <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
@@ -291,19 +322,21 @@ class Graph extends React.PureComponent {
         });
         xaxis = (
           <g>
-            <Xaxis x="80" y="220">Feb</Xaxis>
-            <Xaxis x="170" y="220">Apr</Xaxis>
-            <Xaxis x="260" y="220">Jun</Xaxis>
-            <Xaxis x="350" y="220">Aug</Xaxis>
-            <Xaxis x="440" y="220">Oct</Xaxis>
-            <Xaxis x="530" y="220">Dec</Xaxis>
+            <Xaxis x="80" y="210">Feb</Xaxis>
+            <Xaxis x="170" y="210">Apr</Xaxis>
+            <Xaxis x="260" y="210">Jun</Xaxis>
+            <Xaxis x="350" y="210">Aug</Xaxis>
+            <Xaxis x="440" y="210">Oct</Xaxis>
+            <Xaxis x="530" y="210">Dec</Xaxis>
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
-                  <tspan diff={profit(this.state.current.price, this.state.prices[59].price)}>${formatNumber(this.state.current.price - this.state.prices[59].price)}$</tspan>
+                  <tspan diff={profit(this.state.prices[59].price, this.state.prices[48].price)}>
+                    {formatPercent((this.state.prices[59].price - this.state.prices[48].price) / this.state.prices[48].price * 100)}
+                    %
+                  </tspan>
                 &nbsp;
-                since sold in
-                  {this.state.current.sold_date.substring}
+                last 12 months
                 </text>
               </g>
             </EstimateText>
@@ -373,12 +406,12 @@ class Graph extends React.PureComponent {
       infoprice = 'None';
     }
     return (
-      <div>
-        <svg width="800" height="85%" viewBox="0 -90 750 350" preserveAspectRatio="xMinYMin meet">
+      <div height="700px">
+        <svg width="750" height="300" viewBox="0 -90 750 300" preserveAspectRatio="xMinYMin meet">
           {estimates}
           <TrackButton>
             <g className="button">
-              <rect tabIndex="1" />
+              <rect tabIndex="-1" />
               <text x="472" y="50">Track This Estimate</text>
             </g>
           </TrackButton>
@@ -392,15 +425,15 @@ class Graph extends React.PureComponent {
               <text x="535" y="75"><a href="#">5 years</a></text>
             </g>
           </Selection>
-          <HeadText x="35" y="-50" fontsize="20px">
-Redfin Estimate for
+          <HeadText x="35" y="-50" fontsize="18px">
+            Redfin Estimate for
             {' '}
             {this.state.current.address1}
           </HeadText>
           <HeadText x="35" y="-20">
             <ClickLink href="#">Edit Home Facts</ClickLink>
             {' '}
-to improve accuracy.
+            to improve accuracy.
           </HeadText>
           <HeadText x="35" y="10"><ClickLink href="#">Create an Owner Estimate</ClickLink></HeadText>
           <InfoText x="35" y="50">
