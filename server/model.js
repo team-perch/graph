@@ -33,7 +33,7 @@ module.exports = {
       if (error) {
         callback(error, null);
       } else {
-        console.log(data);
+        console.log(data, 'models');
         const groupid = data[0].group_id;
         connection.query(`select * from houses where houses.group_id = ${groupid}`, (err, result) => {
           if (err) {

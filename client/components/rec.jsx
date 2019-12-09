@@ -162,12 +162,12 @@ class Rec extends React.Component {
     super(props);
     this.state = {
       zipcode: '',
-      rec: [],
+      rec: {},
       page: 1,
       page1: [],
       page2: [],
       page3: [],
-      id: props.id,
+      id: props.id || 1,
     };
     this.separate = this.separate.bind(this);
     this.click = this.click.bind(this);

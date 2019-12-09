@@ -166,7 +166,7 @@ class Graph extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.id,
+      id: props.id || 1,
       prices: [],
       pop: 0,
       current: { },
