@@ -1,7 +1,14 @@
 const Sequelize = require('sequelize');
 const faker = require('faker');
 
-const sequelize = new Sequelize('fec_estimate', 'root', 'yourpassword', {
+let sequelize = new Sequelize('', 'root', 'yourpassword', {
+  host: 'localhost',
+  dialect: 'mysql',
+});
+
+sequelize.query('CREATE DATABASE IF NOT EXISTS fec_estimate');
+
+sequelize = new Sequelize('fec_estimate', 'root', 'yourpassword', {
   host: 'localhost',
   dialect: 'mysql',
 });
@@ -106,6 +113,3 @@ sequelize.sync({ force: true }).then(() => {
     }
   }
 });
-
-
-module.exports = Price;
