@@ -4,17 +4,16 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
-function formatPercent (num){
-  var arr = num.toString().split('')
+function formatPercent(num) {
+  const arr = num.toString().split('');
   let key;
-  for(let i = 0; i < arr.length; i++){
-    if(arr[i] === '.'){
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i] === '.') {
       key = i;
     }
   }
@@ -177,6 +176,7 @@ class Graph extends React.PureComponent {
     };
     this.showPrice = this.showPrice.bind(this);
     this.selectGraph = this.selectGraph.bind(this);
+    this.hidePrice = this.hidePrice.bind(this);
   }
 
   componentDidMount() {
@@ -230,6 +230,21 @@ class Graph extends React.PureComponent {
     });
   }
 
+  hidePrice(e) {
+    let current = this.state.pop;
+    const { id } = e.target;
+    if (current > 59 || current < 2 || current === 49) {
+      this.setState({
+        pop: 0,
+      });
+    } else {
+      this.setState({
+        pop:id,
+      })
+    }
+
+  }
+
   selectGraph(e) {
     const result = Number(e.target.innerHTML[0]);
     if (result === 5) {
@@ -264,25 +279,29 @@ class Graph extends React.PureComponent {
           if (price.date_id < 60) {
             const next = this.state.prices[key + 1];
             return (
-              <g onMouseOver={this.showPrice}>
-                <InvisLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="3" position="relative" />
+              <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
+                <InvisLine x1={40 + (8 * price.date_id)} x2={40 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="6 " position="relative" />
                 <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
           return (
-            <g onMouseOver={this.showPrice}>
-              <InvisLine x1={40 + (8 * price.date_id)} x2={40 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="3" />
+            <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
+              <InvisLine x1={40 + (8 * price.date_id)} x2={40 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="6" />
             </g>
           );
         });
+
+        const axis = this.state.prices.map((entry, key) => {
+          if (key%12 === 0) {
+            return (
+              <Xaxis x={entry.date_id * 8 + 32} y="210">{key/12 + 1 + 2014}</Xaxis>
+            );
+          }
+        });
         xaxis = (
           <g>
-            <Xaxis x="40" y="210">2015</Xaxis>
-            <Xaxis x="136" y="210">2016</Xaxis>
-            <Xaxis x="232" y="210">2017</Xaxis>
-            <Xaxis x="328" y="210">2018</Xaxis>
-            <Xaxis x="424" y="210">2019</Xaxis>
+            {axis}
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
@@ -308,26 +327,34 @@ class Graph extends React.PureComponent {
             // eslint-disable-next-line no-param-reassign
             key += 1;
             return (
-              <g onMouseOver={this.showPrice}>
-                <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="7" position="relative" />
+              <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice} >
+                <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="12" position="relative" />
                 <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
           return (
-            <g onMouseOver={this.showPrice}>
-              <InvisLine x1={(45 * key) + 45} x2={(45 * key) + 45} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="7" />
+            <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice} >
+              <InvisLine x1={(45 * key) + 45} x2={(45 * key) + 45} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="12" />
             </g>
           );
         });
+        const axis = arr.map((entry, key) => {
+          const months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May',
+            'Jun', 'Jul', 'Aug', 'Sep',
+            'Oct', 'Nov', 'Dec',
+          ];
+          const id = key + 1;
+          if (id % 2 === 0) {
+            return (
+              <Xaxis x={id * 45 - 10} y="210">{months[key]}</Xaxis>
+            );
+          }
+        });
         xaxis = (
           <g>
-            <Xaxis x="80" y="210">Feb</Xaxis>
-            <Xaxis x="170" y="210">Apr</Xaxis>
-            <Xaxis x="260" y="210">Jun</Xaxis>
-            <Xaxis x="350" y="210">Aug</Xaxis>
-            <Xaxis x="440" y="210">Oct</Xaxis>
-            <Xaxis x="530" y="210">Dec</Xaxis>
+            {axis}
             <EstimateText>
               <g className="net">
                 <text x="40" y="75">
@@ -406,8 +433,8 @@ class Graph extends React.PureComponent {
       infoprice = 'None';
     }
     return (
-      <div height="700px">
-        <svg width="750" height="300" viewBox="0 -90 750 300" preserveAspectRatio="xMinYMin meet">
+      <div height="730px">
+        <svg width="590" height="300" viewBox="0 -90 590 300" preserveAspectRatio="xMinYMin meet">
           {estimates}
           <TrackButton>
             <g className="button">
