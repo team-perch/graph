@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable max-len */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-param-reassign */
@@ -138,7 +139,7 @@ const TrackButton = styled.g`
     z-index: 5;
     stroke: gray;
     stroke-width: 0.5;
-    stroke-opacity: 0.1:
+    stroke-opacity: 0.1;
     z-index: -1;
     x: 460;
     y: 35;
@@ -231,7 +232,7 @@ class Graph extends React.PureComponent {
   }
 
   hidePrice(e) {
-    let current = this.state.pop;
+    const current = this.state.pop;
     const { id } = e.target;
     if (current > 59 || current < 2 || current === 49) {
       this.setState({
@@ -239,10 +240,9 @@ class Graph extends React.PureComponent {
       });
     } else {
       this.setState({
-        pop:id,
-      })
+        pop: id,
+      });
     }
-
   }
 
   selectGraph(e) {
@@ -293,11 +293,12 @@ class Graph extends React.PureComponent {
         });
 
         const axis = this.state.prices.map((entry, key) => {
-          if (key%12 === 0) {
+          if (key % 12 === 0) {
             return (
-              <Xaxis x={entry.date_id * 8 + 32} y="210">{key/12 + 1 + 2014}</Xaxis>
+              <Xaxis x={entry.date_id * 8 + 32} y="210">{key / 12 + 1 + 2014}</Xaxis>
             );
           }
+          return null;
         });
         xaxis = (
           <g>
@@ -327,14 +328,14 @@ class Graph extends React.PureComponent {
             // eslint-disable-next-line no-param-reassign
             key += 1;
             return (
-              <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice} >
+              <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
                 <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="12" position="relative" />
                 <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
           return (
-            <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice} >
+            <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
               <InvisLine x1={(45 * key) + 45} x2={(45 * key) + 45} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="12" />
             </g>
           );
@@ -351,6 +352,7 @@ class Graph extends React.PureComponent {
               <Xaxis x={id * 45 - 10} y="210">{months[key]}</Xaxis>
             );
           }
+          return null;
         });
         xaxis = (
           <g>

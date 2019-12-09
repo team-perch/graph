@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable import/extensions */
 import React from 'react';
@@ -29,10 +30,8 @@ const Div1 = styled.div`
   position: sticky;
   position:-webkit-sticky;
   top: 0;
-  display: inline;
   img {
     display: inline;
-    float: left;
     position: sticky;
     position:-webkit-sticky;
     top: 0;
@@ -73,12 +72,12 @@ class App extends React.Component {
           <Graph getZip={this.getZip} />
           <InfoText>
             Redfins Estimate based on recent home sales.&nbsp;
-            <InfoIcon className="fas" onClick={()=>{}}>&#xf05a;</InfoIcon>
+            <InfoIcon className="fas">&#xf05a;</InfoIcon>
           </InfoText>
           <Rec zipcode={this.state.zip} />
         </Div>
         <Div1>
-          <img src='https://redfin-estimates.s3.us-east-2.amazonaws.com/Screen+Shot+2019-12-07+at+10.38.41+AM.png' width="250" height = "360" ></img>
+          <img src="https://redfin-estimates.s3.us-east-2.amazonaws.com/Screen+Shot+2019-12-07+at+10.38.41+AM.png" width="250" height="360" alt="sidebar" />
         </Div1>
       </MainDiv>
     );

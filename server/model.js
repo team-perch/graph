@@ -17,10 +17,6 @@ connection.connect((err) => {
 module.exports = {
   connection,
   getgraph: (callback, id) => {
-    // Price.findAll({where: {property_id: 1}}).then((data)=>{
-    //   console.log('MODEL' + data)
-    //   callback(null, data)
-    // })
     const info = id.houseId;
     connection.query(`select * from prices where prices.property_id = ${info}`, (error, data) => {
       if (error) {

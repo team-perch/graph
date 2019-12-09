@@ -26,7 +26,6 @@ function formatSoldDate(string) {
 const View = styled.div`
   width: 620px;
   height: 250px;
-  align: left;
   .navigation {
     align: left;
     margin: 0px;
@@ -157,7 +156,7 @@ const RefText = styled.text`
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 300;
   fill: white;
-`
+`;
 class Rec extends React.Component {
   constructor(props) {
     super(props);
@@ -268,7 +267,7 @@ class Rec extends React.Component {
           rating = null;
         }
         if (key === 1) {
-          reftext = 'B'
+          reftext = 'B';
           rightarrow = (
             <svg x="110" y="50" className="next">
               <Button>
@@ -280,7 +279,7 @@ class Rec extends React.Component {
             </svg>
           );
         } else {
-          reftext = 'A'
+          reftext = 'A';
           rightarrow = null;
         }
         if (key < 6) {
@@ -321,7 +320,7 @@ class Rec extends React.Component {
                 <InfoText x="180" y="123">{rec.bed}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.bath}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.sq_ft}</InfoText>
                 <line x1="202" x2="202" y1="133" y2="113" stroke="white" strokeWidth="0.8" stroke1="0.8" />
                 <line x1="236" x2="236" y1="133" y2="113" stroke="white" strokeWidth="0.8" strokeOpacity="0.8" />
-                <RefCircle cx="260" cy="15"></RefCircle>
+                <RefCircle cx="260" cy="15" />
                 <RefText x="255.75" y="19">
                   {reftext}
                 </RefText>
@@ -407,7 +406,7 @@ class Rec extends React.Component {
                 <InfoText x="180" y="123">{rec.bed}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.bath}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.sq_ft}</InfoText>
                 <line x1="202" x2="202" y1="133" y2="113" stroke="white" strokeWidth="0.8" strokeOpacity="0.8" />
                 <line x1="236" x2="236" y1="133" y2="113" stroke="white" strokeWidth="0.8" strokeOpacity="0.8" />
-                <RefCircle cx="260" cy="15"></RefCircle>
+                <RefCircle cx="260" cy="15" />
                 <RefText x="255.75" y="19">
                   {reftext}
                 </RefText>
@@ -482,7 +481,7 @@ class Rec extends React.Component {
                 <InfoText x="180" y="123">{rec.bed}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.bath}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rec.sq_ft}</InfoText>
                 <line x1="202" x2="202" y1="133" y2="113" stroke="white" strokeWidth="0.8" strokeOpacity="0.8" />
                 <line x1="236" x2="236" y1="133" y2="113" stroke="white" strokeWidth="0.8" strokeOpacity="0.8" />
-                <RefCircle cx="260" cy="15"></RefCircle>
+                <RefCircle cx="260" cy="15" />
                 <RefText x="255.75" y="19">
                   {reftext}
                 </RefText>
