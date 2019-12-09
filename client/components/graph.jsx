@@ -166,6 +166,7 @@ class Graph extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      id: props.id,
       prices: [],
       pop: 0,
       current: { },
@@ -181,22 +182,8 @@ class Graph extends React.PureComponent {
   }
 
   componentDidMount() {
-    const api = function () {
-      let result = '/api/estimates/pricing/1';
-      if (window.location.pathname.length > 1) {
-        result = `/api/estimates/pricing${window.location.pathname}`;
-      }
-      return result;
-    };
-    const api1 = function () {
-      let result = '/api/estimates/houseinfo/1';
-      if (window.location.pathname.length > 1) {
-        result = `/api/estimates/houseinfo${window.location.pathname}`;
-      }
-      return result;
-    };
     ajax({
-      url: api(),
+      url: `/api/estimates/pricing/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         data.sort((a, b) => {
@@ -213,7 +200,7 @@ class Graph extends React.PureComponent {
       },
     });
     ajax({
-      url: api1(),
+      url: `/api/estimates/houseinfo/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         this.setState({

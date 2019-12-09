@@ -54,6 +54,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       zip: '',
+      id: props.id,
     };
     this.getZip = this.getZip.bind(this);
   }
@@ -65,16 +66,17 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(typeof this.state.id);
     return (
       <MainDiv>
         <Div>
           <GlobalStyles />
-          <Graph getZip={this.getZip} />
+          <Graph getZip={this.getZip} id={this.state.id} />
           <InfoText>
             Redfins Estimate based on recent home sales.&nbsp;
             <InfoIcon className="fas">&#xf05a;</InfoIcon>
           </InfoText>
-          <Rec zipcode={this.state.zip} />
+          <Rec zipcode={this.state.zip} id={this.state.id} />
         </Div>
         <Div1>
           <img src="https://redfin-estimates.s3.us-east-2.amazonaws.com/Screen+Shot+2019-12-07+at+10.38.41+AM.png" width="250" height="360" alt="sidebar" />

@@ -167,25 +167,19 @@ class Rec extends React.Component {
       page1: [],
       page2: [],
       page3: [],
+      id: props.id,
     };
     this.separate = this.separate.bind(this);
     this.click = this.click.bind(this);
   }
 
   componentDidMount() {
-    const api = function () {
-      let result = '/api/estimates/recentsales/1';
-      if (window.location.pathname.length > 1) {
-        result = `/api/estimates/recentsales${window.location.pathname}`;
-      }
-      return result;
-    };
     ajax({
-      url: api(),
+      url: `/api/estimates/recentsales/${this.state.id}`,
       method: 'GET',
       success: (data) => {
+        const property = Number(this.state.id);
         const data1 = data.filter((entry) => {
-          const property = Number(window.location.pathname[1]);
           if (entry.property_id === property) {
             return null;
           }

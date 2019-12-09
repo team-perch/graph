@@ -28,10 +28,12 @@ module.exports = {
   },
   getrecentsales: (callback, id) => {
     const info = id.houseId;
+    console.log(info);
     connection.query(`select group_id from houses where houses.property_id = ${info}`, (error, data) => {
       if (error) {
         callback(error, null);
       } else {
+        console.log(data);
         const groupid = data[0].group_id;
         connection.query(`select * from houses where houses.group_id = ${groupid}`, (err, result) => {
           if (err) {
