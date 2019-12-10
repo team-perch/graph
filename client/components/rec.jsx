@@ -280,7 +280,7 @@ class Rec extends React.Component {
         }
         if (key < 6) {
           return (
-            <li id="page1" currentpage={this.state.page} className={`item${key.toString()}`}>
+            <li id="page1" key={rec.property_id} currentpage={this.state.page} className={`item${key.toString()}`}>
               <svg width="300px" height="150px" position="absolute" fill="white" currentpage={this.state.page}>
                 <filter id="darken">
                   <feColorMatrix
@@ -366,7 +366,7 @@ class Rec extends React.Component {
         }
         if (key < 6) {
           return (
-            <li id="page2" currentpage={this.state.page} className={`item${key.toString()}`}>
+            <li id="page2" key={rec.property_id} currentpage={this.state.page} className={`item${key.toString()}`}>
               <svg width="300px" height="150px" position="absolute" fill="white">
                 <filter id="darken">
                   <feColorMatrix
@@ -441,7 +441,7 @@ class Rec extends React.Component {
         }
         if (key < 6) {
           return (
-            <li id="page3" currentpage={this.state.page} className={`item${key.toString()}`}>
+            <li id="page3" key={rec.property_id} currentpage={this.state.page} className={`item${key.toString()}`}>
               <svg width="300px" height="150px" position="absolute" fill="white">
                 <filter id="darken">
                   <feColorMatrix

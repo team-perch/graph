@@ -267,14 +267,14 @@ class Graph extends React.PureComponent {
           if (price.date_id < 60) {
             const next = this.state.prices[key + 1];
             return (
-              <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
+              <g key={price.id} onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
                 <InvisLine x1={40 + (8 * price.date_id)} x2={40 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="6 " position="relative" />
                 <GraphLine x1={40 + (8 * price.date_id)} x2={48 + (8 * price.date_id)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
           return (
-            <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
+            <g key={price.id} onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
               <InvisLine x1={40 + (8 * price.date_id)} x2={40 + (8 * price.date_id)} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="6" />
             </g>
           );
@@ -283,7 +283,7 @@ class Graph extends React.PureComponent {
         const axis = this.state.prices.map((entry, key) => {
           if (key % 12 === 0) {
             return (
-              <Xaxis x={entry.date_id * 8 + 32} y="210">{key / 12 + 1 + 2014}</Xaxis>
+              <Xaxis key={entry.id} x={entry.date_id * 8 + 32} y="210">{key / 12 + 1 + 2014}</Xaxis>
             );
           }
           return null;
@@ -316,14 +316,14 @@ class Graph extends React.PureComponent {
             // eslint-disable-next-line no-param-reassign
             key += 1;
             return (
-              <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
+              <g key={price.id} onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
                 <InvisLine x1={(45 * key)} x2={(45 * key)} y1="230" y2="110" id={price.date_id} stroke="white" strokeWidth="12" position="relative" />
                 <GraphLine x1={(45 * key)} x2={45 + (45 * key)} y1={250 - (price.price * 0.0001)} y2={250 - (next.price * 0.0001)} />
               </g>
             );
           }
           return (
-            <g onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
+            <g key={price.id} onMouseOver={this.showPrice} onMouseOut={this.hidePrice}>
               <InvisLine x1={(45 * key) + 45} x2={(45 * key) + 45} y1="230" y2="110" id={price.date_id} stroke="white" stroke-width="12" />
             </g>
           );
@@ -337,7 +337,7 @@ class Graph extends React.PureComponent {
           const id = key + 1;
           if (id % 2 === 0) {
             return (
-              <Xaxis x={id * 45 - 10} y="210">{months[key]}</Xaxis>
+              <Xaxis key={entry.id} x={id * 45 - 10} y="210">{months[key]}</Xaxis>
             );
           }
           return null;

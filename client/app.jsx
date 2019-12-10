@@ -20,7 +20,7 @@ const GlobalStyles = createGlobalStyle`
 const MainDiv = styled.div`
   float: left;
   width: 950;
-  height: 2000;
+  height: 600;
 `;
 const Div = styled.div`
   float: left;
@@ -77,9 +77,6 @@ class App extends React.Component {
           </InfoText>
           <Rec zipcode={this.state.zip} id={this.state.id} />
         </Div>
-        <Div1>
-          <img src="https://redfin-estimates.s3.us-east-2.amazonaws.com/Screen+Shot+2019-12-07+at+10.38.41+AM.png" width="250" height="360" alt="sidebar" />
-        </Div1>
       </MainDiv>
     );
   }
