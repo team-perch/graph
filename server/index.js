@@ -5,6 +5,7 @@ const path = require('path');
 const Controller = require('./controller.js');
 
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(cors());
 
 app.get('/api/estimates/pricing/:houseId', (req, res) => {
   Controller.getgraph(req, res);
