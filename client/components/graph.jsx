@@ -10,6 +10,7 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
+const url = 'http://localhost:3002';
 function formatPercent(num) {
   const arr = num.toString().split('');
   let key;
@@ -183,7 +184,7 @@ class Graph extends React.PureComponent {
 
   componentDidMount() {
     ajax({
-      url: `/api/estimates/pricing/${this.state.id}`,
+      url: `${url}/api/estimates/pricing/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         data.sort((a, b) => {
@@ -200,7 +201,7 @@ class Graph extends React.PureComponent {
       },
     });
     ajax({
-      url: `/api/estimates/houseinfo/${this.state.id}`,
+      url: `http://localhost:3002/api/estimates/houseinfo/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         this.setState({

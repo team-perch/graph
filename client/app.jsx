@@ -66,7 +66,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(typeof this.state.id);
     return (
       <MainDiv>
         <Div>

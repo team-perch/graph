@@ -8,6 +8,7 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
+const url = 'http://localhost:3002';
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
@@ -167,7 +168,7 @@ class Rec extends React.Component {
       page1: [],
       page2: [],
       page3: [],
-      id: props.id || 1,
+      id: props.id,
     };
     this.separate = this.separate.bind(this);
     this.click = this.click.bind(this);
@@ -175,10 +176,11 @@ class Rec extends React.Component {
 
   componentDidMount() {
     ajax({
-      url: `/api/estimates/recentsales/${this.state.id}`,
+      url: `${url}/api/estimates/recentsales/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         const property = Number(this.state.id);
+        console.log(data);
         const data1 = data.filter((entry) => {
           if (entry.property_id === property) {
             return null;
@@ -198,7 +200,7 @@ class Rec extends React.Component {
         });
         const group = data2[0].group_id;
         ajax({
-          url: `/api/estimates/zipcode/${group}`,
+          url: `${url}/api/estimates/zipcode/${group}`,
           method: 'GET',
           success: (results) => {
             this.setState({
@@ -250,7 +252,7 @@ class Rec extends React.Component {
     let image1;
     let image2;
     let image3;
-    if (this.state.rec.length > 0) {
+    if (this.state.rec.length > 5) {
       image1 = this.state.page1.map((rec, key) => {
         let reftext;
         let rightarrow;
@@ -330,7 +332,7 @@ class Rec extends React.Component {
         let reftext;
         let rightarrow;
         let leftarrow;
-        if (rec.rating === 1) {
+        if (rec !== undefined) {
           rating = <Star x="40" y="113">&#9733;</Star>;
         } else {
           rating = null;
