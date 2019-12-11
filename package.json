@@ -8,9 +8,10 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "db-dev": "node ./seed1.js",
-    "start": "webpack -d --watch",
-    "server": "nodemon ./server/server.js",
+    "db-dev": "node ./seed/seed1.js",
+    "build-dev": "webpack -d --watch",
+    "build": "webpack --mode=production --config webpack.config.js",
+    "start": "node ./server/server.js",
     "test": "jest --collectCoverage"
   },
   "dependencies": {

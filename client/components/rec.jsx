@@ -25,12 +25,11 @@ function formatSoldDate(string) {
   return `${months[Number(month) + 1].toUpperCase()} ${day},${year}`;
 }
 const View = styled.div`
-  width: 620px;
-  height: 250px;
+  width: 7000px;
+  height: 150px;
   .navigation {
-    align: left;
     margin: 0px;
-    padding-left: 0px;
+    padding-left: 20px;
     position: relative;
     list-style: none;
     background: white;

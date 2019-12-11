@@ -12,30 +12,18 @@ const GlobalStyles = createGlobalStyle`
     scroll-behavior: smooth;
   }
   body {
-    padding-left: 30px;
+    padding-left: 100px;
     top: -200px;
     z-index: 100;
   }
 `;
 const MainDiv = styled.div`
   float: left;
-  width: 950;
-  height: 600;
+  width: 1010;
+  height: 560;
 `;
 const Div = styled.div`
   float: left;
-`;
-const Div1 = styled.div`
-  float: left;
-  position: sticky;
-  position:-webkit-sticky;
-  top: 0;
-  img {
-    display: inline;
-    position: sticky;
-    position:-webkit-sticky;
-    top: 0;
-  }
 `;
 const InfoText = styled.div`
   margin-top: 10px;

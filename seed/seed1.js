@@ -1,15 +1,15 @@
 const Sequelize = require('sequelize');
 const faker = require('faker');
 
-let sequelize = new Sequelize('', 'root', 'yourpassword', {
-  host: 'localhost',
+let sequelize = new Sequelize('', 'user', 'user', {
+  host: 'database',
   dialect: 'mysql',
 });
 
 sequelize.query('CREATE DATABASE IF NOT EXISTS fec_estimate');
 
-sequelize = new Sequelize('fec_estimate', 'root', 'yourpassword', {
-  host: 'localhost',
+sequelize = new Sequelize('fec_estimate', 'user', 'user', {
+  host: 'database',
   dialect: 'mysql',
 });
 

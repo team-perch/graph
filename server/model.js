@@ -2,9 +2,9 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'yourpassword',
+  host: 'database',
+  user: 'user',
+  password: 'user',
   database: 'fec_estimate',
 });
 

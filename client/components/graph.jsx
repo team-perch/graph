@@ -424,7 +424,7 @@ class Graph extends React.PureComponent {
     }
     return (
       <div height="730px">
-        <svg width="590" height="300" viewBox="0 -90 590 300" preserveAspectRatio="xMinYMin meet">
+        <svg width="650" height="325" viewBox="0 -90 590 300" preserveAspectRatio="xMinYMin meet">
           {estimates}
           <TrackButton>
             <g className="button">

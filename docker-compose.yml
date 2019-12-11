@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  estimate:
+    build: ./
+    depends_on:
+      - 'database'
+    ports:
+      - '3002:3002'
+    # command: ["./wait-for-it.sh", "database:3306", "--", "npm", "run", "db-dev", "--", "npm", "start"]
+    # command: ["./wait-for-it.sh", "database:3306", "--", "npm", "start"]
+    command: bash -c "./wait-for-it.sh database:3306 && npm run db-dev && npm start"
+
+  database:
+    image: mysql:5.7.28
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'fec_estimate'
+      MYSQL_ROOT_PASSWORD: 'yourpassword'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user'
+    ports:
+      - "3306:3306"
