@@ -8,7 +8,7 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
-const url = 'http://localhost:3002';
+const url = 'http://52.8.79.159/';
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
@@ -25,7 +25,7 @@ function formatSoldDate(string) {
   return `${months[Number(month) + 1].toUpperCase()} ${day},${year}`;
 }
 const View = styled.div`
-  width: 7000px;
+  width: 900px;
   height: 150px;
   .navigation {
     margin: 0px;
@@ -167,7 +167,7 @@ class Rec extends React.Component {
       page1: [],
       page2: [],
       page3: [],
-      id: props.id,
+      id: props.id || 1,
     };
     this.separate = this.separate.bind(this);
     this.click = this.click.bind(this);
@@ -175,7 +175,7 @@ class Rec extends React.Component {
 
   componentDidMount() {
     ajax({
-      url: `${url}/api/estimates/recentsales/${this.state.id}`,
+      url: `${url}api/estimates/recentsales/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         const property = Number(this.state.id);
@@ -199,7 +199,7 @@ class Rec extends React.Component {
         });
         const group = data2[0].group_id;
         ajax({
-          url: `${url}/api/estimates/zipcode/${group}`,
+          url: `${url}api/estimates/zipcode/${group}`,
           method: 'GET',
           success: (results) => {
             this.setState({
@@ -489,7 +489,7 @@ class Rec extends React.Component {
       });
     }
     return (
-      <div>
+      <div width="1200px">
         <View>
           <ul className="navigation">
             {image1}

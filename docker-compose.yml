@@ -7,8 +7,6 @@ services:
       - 'database'
     ports:
       - '3002:3002'
-    # command: ["./wait-for-it.sh", "database:3306", "--", "npm", "run", "db-dev", "--", "npm", "start"]
-    # command: ["./wait-for-it.sh", "database:3306", "--", "npm", "start"]
     command: bash -c "./wait-for-it.sh database:3306 && npm run db-dev && npm start"
 
   database:

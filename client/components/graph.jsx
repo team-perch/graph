@@ -10,7 +10,7 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
-const url = 'http://localhost:3002';
+const url = 'http://52.8.79.159/';
 function formatPercent(num) {
   const arr = num.toString().split('');
   let key;
@@ -184,7 +184,7 @@ class Graph extends React.PureComponent {
 
   componentDidMount() {
     ajax({
-      url: `${url}/api/estimates/pricing/${this.state.id}`,
+      url: `${url}api/estimates/pricing/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         data.sort((a, b) => {
@@ -201,7 +201,7 @@ class Graph extends React.PureComponent {
       },
     });
     ajax({
-      url: `http://localhost:3002/api/estimates/houseinfo/${this.state.id}`,
+      url: `${url}api/estimates/houseinfo/${this.state.id}`,
       method: 'GET',
       success: (data) => {
         this.setState({
@@ -423,7 +423,7 @@ class Graph extends React.PureComponent {
       infoprice = 'None';
     }
     return (
-      <div height="730px">
+      <div height="730px" max-width="1200px">
         <svg width="650" height="325" viewBox="0 -90 590 300" preserveAspectRatio="xMinYMin meet">
           {estimates}
           <TrackButton>

@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const app = express();
 const path = require('path');
+const compression = require('compression');
 const Controller = require('./controller.js');
 
 app.use(express.static(path.join(__dirname, '../public')));

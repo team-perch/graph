@@ -1,4 +1,6 @@
-FROM node:8.15.1
+FROM node:10.17-alpine
+
+RUN apk update && apk add bash
 
 RUN mkdir -p /src/app
 
