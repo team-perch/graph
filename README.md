@@ -1,13 +1,13 @@
 # Project Name
 
-> Project description
+Graph component of Perch, real estate listing app
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/team-perch/graph-proxy
+  - https://github.com/team-perch/payment-calculator
+  - https://github.com/team-perch/imageGallery
+  - https://github.com/team-perch/costHomeOwnership
 
 ## Table of Contents
 
@@ -18,6 +18,28 @@
 ## Usage
 
 > Some usage instructions
+
+### API endpoints:
+
+- POST /api/estimates/pricing/:houseId-:dateId
+
+> Add an price data point to an existing property listing\
+> Returns the new data point object
+
+- GET /api/estimates/pricing/:houseId
+
+> Get all price data points from an existing property listing\
+> Returns an array of price data point objects matching the houseId of the property listing
+
+- PUT /api/estimates/pricing/:houseId-:dateId
+
+> Update a specified price data point from an existing property listing with new data\
+> Returns the updated data point object
+
+
+- DELETE /api/estimates/pricing/:houseId-:dateId
+
+> Delete a specified price data point from an existing property listing
 
 ## Requirements
 
@@ -36,4 +58,3 @@ From within the root directory:
 npm install -g webpack
 npm install
 ```
-

@@ -2,10 +2,10 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: 'database',
+  host: 'localhost',
   user: 'user',
-  password: 'user',
-  database: 'fec_estimate',
+  password: 'password',
+  database: 'estimate',
 });
 
 connection.connect((err) => {
@@ -58,6 +58,44 @@ module.exports = {
   gethouseinfo: (callback, id) => {
     const info = id.houseId;
     connection.query(`select * from houses where houses.property_id = ${info}`, (error, data) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, data);
+      }
+    });
+  },
+  postgraph: (callback, id) => {
+    const info = id.houseId;
+    const date = id.dateId;
+    connection.query(`select * from prices where prices.property_id =
+    ${info}`, (error, data) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, data);
+      }
+    });
+//     connection.query(`INSERT INTO prices ()`)
+//     INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+// VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+  },
+
+  putgraph: (callback, id) => {
+    const info = id.houseId;
+    const date = id.dateId;
+    connection.query(`select * from prices where prices.property_id = ${info}`, (error, data) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, data);
+      }
+    });
+  },
+  deletegraph: (callback, id) => {
+    const info = id.houseId;
+    const date = id.dateId;
+    connection.query(`select * from prices where prices.property_id = ${info}`, (error, data) => {
       if (error) {
         callback(error, null);
       } else {

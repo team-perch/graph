@@ -37,4 +37,31 @@ module.exports = {
       }
     }, req.params);
   },
+  postgraph: (req, res) => {
+    Model.postgraph((error, data) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.params);
+  },
+  putgraph: (req, res) => {
+    Model.putgraph((error, data) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.params);
+  },
+  deletegraph: (req, res) => {
+    Model.deletegraph((error, data) => {
+      if (error) {
+        res.status(400).send(error);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.params);
+  },
 };
