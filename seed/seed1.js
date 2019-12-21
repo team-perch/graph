@@ -53,7 +53,7 @@ const Price = sequelize.define('prices', {
       key: 'property_id',
     },
   },
-  price: { type: Sequelize.STRING, allowNull: false },
+  price: { type: Sequelize.INTEGER, allowNull: false },
   date_id: {
     type: Sequelize.INTEGER,
     references: {

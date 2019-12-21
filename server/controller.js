@@ -8,7 +8,7 @@ module.exports = {
       } else {
         res.status(200).send(data);
       }
-    }, req.params);
+    }, req);
   },
   getrecentsales: (req, res) => {
     Model.getrecentsales((error, data) => {
