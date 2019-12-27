@@ -78,7 +78,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
         if (err) {
           throw err;
         }
-        console.log(Date.now() - start);
+        console.log(Math.round((Date.now() - start) / 1000), 's');
         console.log('Houses finished');
         fs.writeFile('./seed/csv/prices.csv', createPrice(1), (err) => {
           if (err) {
@@ -88,7 +88,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
             if (err) {
               throw err;
             }
-            console.log('First price batch:', Date.now() - start);
+            console.log('First price batch:', Math.round((Date.now() - start) / 1000), 's');
             fs.writeFile('./seed/csv/prices.csv', createPrice(500001), (err) => {
               if (err) {
                 throw err;
@@ -97,7 +97,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
                 if (err) {
                   throw err;
                 }
-                console.log('Second price batch:', Date.now() - start);
+                console.log('Second price batch:', Math.round((Date.now() - start) / 1000), 's');
                 fs.writeFile('./seed/csv/prices.csv', createPrice(1000001), (err) => {
                   if (err) {
                     throw err;
@@ -106,7 +106,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
                     if (err) {
                       throw err;
                     }
-                    console.log('Third price batch:', Date.now() - start);
+                    console.log('Third price batch:', Math.round((Date.now() - start) / 1000), 's');
                     fs.writeFile('./seed/csv/prices.csv', createPrice(1500001), (err) => {
                       if (err) {
                         throw err;
@@ -115,8 +115,8 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
                         if (err) {
                           throw err;
                         }
-                        console.log('Last price batch:', Date.now() - start);
-                        console.log('Complete');
+                        console.log('Last price batch:', Math.round((Date.now() - start) / 1000), 's');
+                        console.log('Seeding complete');
                       });
                     });
                   });
@@ -131,5 +131,5 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
 });
 
 // Execute this file from the command line by typing:
-//   node --max-old-space-size=8192 ./seed/seed.js;
+//   node --max-old-space-size=8192 ./seed/psqlSeed.js;
 // to seed the postgres database.
