@@ -180,7 +180,6 @@ class Rec extends React.Component {
       method: 'GET',
       success: (data) => {
         const property = Number(this.state.id);
-        console.log(data);
         const data1 = data.filter((entry) => {
           if (entry.property_id === property) {
             return null;
