@@ -25,7 +25,22 @@ fs.writeFile('./seed/csv/zips.csv', createZip(), (err) => {
   if (err) {
     throw err;
   }
-  pool.query("COPY zips(zipcode) FROM '/Users/impeter9/Documents/graph/seed/csv/zips.csv' DELIMITER '|'");
+  pool.query("COPY groups(zipcode) FROM '/Users/impeter9/Documents/graph/seed/csv/zips.csv' DELIMITER '|'");
+});
+
+function createDates() {
+  let string = '';
+  for (let i = 0; i < 60; i += 1) {
+    string += monthYearList[i];
+    string += '\n';
+  }
+  return string;
+}
+fs.writeFile('./seed/csv/dates.csv', createDates(), (err) => {
+  if (err) {
+    throw err;
+  }
+  pool.query("COPY dates(month_year) FROM '/Users/impeter9/Documents/graph/seed/csv/dates.csv' DELIMITER '|'");
 });
 
 function createHouse(num) {
@@ -54,8 +69,7 @@ function createPrice(num) {
     for (let j = 1; j <= 60; j += 1) {
       price += `${i}|`;
       price += Math.ceil(Math.random() * 500 + 700) * 1000;
-      price += '|';
-      price += monthYearList[j - 1];
+      price += `|${j}`;
       price += '\n';
     }
   }
@@ -66,7 +80,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
   if (err) {
     throw err;
   }
-  pool.query("COPY houses(imgurl, rating, bed, bath, sold_price, address1, address2, sq_ft, sold_date, zip_id) FROM '/Users/impeter9/Documents/graph/seed/csv/houses.csv' DELIMITER '|'", (err) => {
+  pool.query("COPY houses(imgurl, rating, bed, bath, price, address1, address2, sq_ft, sold_date, group_id) FROM '/Users/impeter9/Documents/graph/seed/csv/houses.csv' DELIMITER '|'", (err) => {
     if (err) {
       throw err;
     }
@@ -74,7 +88,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
       if (err) {
         throw err;
       }
-      pool.query("COPY houses(imgurl, rating, bed, bath, sold_price, address1, address2, sq_ft, sold_date, zip_id) FROM '/Users/impeter9/Documents/graph/seed/csv/houses.csv' DELIMITER '|'", (err) => {
+      pool.query("COPY houses(imgurl, rating, bed, bath, price, address1, address2, sq_ft, sold_date, group_id) FROM '/Users/impeter9/Documents/graph/seed/csv/houses.csv' DELIMITER '|'", (err) => {
         if (err) {
           throw err;
         }
@@ -84,7 +98,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
           if (err) {
             throw err;
           }
-          pool.query("COPY prices(id, price, month_year) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
+          pool.query("COPY prices(property_id, price, date_id) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
             if (err) {
               throw err;
             }
@@ -93,7 +107,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
               if (err) {
                 throw err;
               }
-              pool.query("COPY prices(id, price, month_year) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
+              pool.query("COPY prices(property_id, price, date_id) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
                 if (err) {
                   throw err;
                 }
@@ -102,7 +116,7 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
                   if (err) {
                     throw err;
                   }
-                  pool.query("COPY prices(id, price, month_year) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
+                  pool.query("COPY prices(property_id, price, date_id) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
                     if (err) {
                       throw err;
                     }
@@ -111,12 +125,13 @@ fs.writeFile('./seed/csv/houses.csv', createHouse(1), (err) => {
                       if (err) {
                         throw err;
                       }
-                      pool.query("COPY prices(id, price, month_year) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
+                      pool.query("COPY prices(property_id, price, date_id) FROM '/Users/impeter9/Documents/graph/seed/csv/prices.csv' DELIMITER '|'", (err) => {
                         if (err) {
                           throw err;
                         }
                         console.log('Last price batch:', Math.round((Date.now() - start) / 1000), 's');
                         console.log('Seeding complete');
+                        pool.end().then(() => console.log('pool has ended'));
                       });
                     });
                   });
