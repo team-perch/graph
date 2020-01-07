@@ -30,11 +30,11 @@ app.get('/api/estimates/houseinfo/:houseId', (req, res) => {
 // Request URL: http://localhost:3000/flights/LAX-SFO
 // req.params: { "from": "LAX", "to": "SFO" }
 
-app.post('/api/estimates/pricing/:houseId-:dateId-:price', (req, res) => {
+app.post('/api/estimates/pricing/:houseId-:dateId-:priceAmount', (req, res) => {
   Controller.postgraph(req, res);
 });
 
-app.put('/api/estimates/pricing/:houseId-:dateId-:price', (req, res) => {
+app.put('/api/estimates/pricing/:houseId-:dateId-:priceAmount', (req, res) => {
   Controller.putgraph(req, res);
 });
 
