@@ -1,0 +1,19 @@
+config:
+  target: 'http://localhost:3002'
+  phases:
+    - duration: 60
+      arrivalRate: 30
+      rampto: 200
+  processor: "./artil-function.js"
+
+scenarios:
+  - flow:
+    - function: "generateRandomData"
+    - get:
+        url: "/api/estimates/pricing/{{ houseID }}"
+    - get:
+        url: "/api/estimates/recentsales/{{ houseID }}"
+    - get:
+        url: "/api/estimates/zipcode/{{ houseID }}"
+    - get:
+        url: "/api/estimates/houseinfo/{{ houseID }}"
