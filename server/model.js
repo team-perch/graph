@@ -3,6 +3,7 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
   user: 'impeter9',
+  password: 'password',
   // host: 'localhost',
   host: '13.56.75.45',
   database: 'perch_graph',
