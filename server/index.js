@@ -10,6 +10,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 app.use(compression());
 
+app.use('/loaderio-25731dccb61ddf7087a18e14bd3d8d0f.txt', express.static(path.join(__dirname, '../public/loaderio-25731dccb61ddf7087a18e14bd3d8d0f.txt')));
+
 app.get('/api/estimates/pricing/:houseId', (req, res) => {
   Controller.getgraph(req, res);
 });
