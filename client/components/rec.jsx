@@ -8,8 +8,8 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
-// const url = 'http://52.8.79.159/';
-const url = 'http://localhost:3002/';
+const url = 'http://54.67.110.125/';
+// const url = 'http://localhost:3002/';
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
