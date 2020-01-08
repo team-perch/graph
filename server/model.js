@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: 'impeter9',
   // host: 'localhost',
-  host: '13.52.252.41',
+  host: '13.56.75.45',
   database: 'perch_graph',
   port: 5432,
 });
