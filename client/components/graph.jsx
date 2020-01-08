@@ -10,7 +10,7 @@ import React from 'react';
 import { ajax } from 'jquery';
 import styled from 'styled-components';
 
-const url = 'http://ec2-54-67-110-125.us-west-1.compute.amazonaws.com:3002/';
+const url = 'http://54.67.110.125:3002/';
 // const url = 'http://localhost:3002/';
 function formatPercent(num) {
   const arr = num.toString().split('');
