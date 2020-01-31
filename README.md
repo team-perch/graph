@@ -15,10 +15,6 @@ Graph component of Perch, real estate listing app
 1. [Requirements](#requirements)
 1. [Development](#development)
 
-## Usage
-
-> Some usage instructions
-
 ### API endpoints:
 
 - POST /api/estimates/pricing/:houseId-:dateId-:priceAmount
