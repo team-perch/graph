@@ -10,7 +10,10 @@
 
 ![Imgur Image](./graph_demo.gif)
 
-## API endpoints:
+## Schema
+![schema](https://perch-graph.s3-us-west-1.amazonaws.com/perch-schema.png)
+
+## API endpoints
 
 - POST /api/estimates/pricing/:houseId-:dateId-:priceAmount
 
@@ -31,6 +34,16 @@
 - DELETE /api/estimates/pricing/:houseId-:dateId
 
 > Delete a specified price data point from an existing property listing
+
+## Results
+### Pre Horizontal Scaling
+![loadpre](https://perch-graph.s3-us-west-1.amazonaws.com/perch-loader-pre-scale.png)
+![newrelpre](https://perch-graph.s3-us-west-1.amazonaws.com/perch-newrel-pre-scale.png)
+> Initial metrics were around 800 rps with 1800ms latency with 0 error rate
+### Post Horizontal Scaling
+![loadpost](https://perch-graph.s3-us-west-1.amazonaws.com/perch-loader-post-scale.png)
+![newrelpost](https://perch-graph.s3-us-west-1.amazonaws.com/perch-newrel-post-scale.png)
+> After scaling, metrics improved to 1300 rps with 66ms latency
 
 ## Requirements
 
