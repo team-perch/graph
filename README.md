@@ -1,21 +1,16 @@
-# Project Name
-
-Graph component of Perch, real estate listing app
+# Graph Module for Perch
 
 ## Related Projects
 
-  - https://github.com/team-perch/graph-proxy
   - https://github.com/team-perch/payment-calculator
   - https://github.com/team-perch/imageGallery
   - https://github.com/team-perch/costHomeOwnership
 
-## Table of Contents
+## Screen Capture
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+![Imgur Image](./graph_demo.gif)
 
-### API endpoints:
+## API endpoints:
 
 - POST /api/estimates/pricing/:houseId-:dateId-:priceAmount
 
@@ -46,8 +41,6 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
 ## Development
 
-### Installing Dependencies
-
 From within the root directory:
 
 ```sh
@@ -55,3 +48,5 @@ npm install
 npm run build
 npm run start
 ```
+Navigate to link in a web browser.
+>http://localhost:3002
