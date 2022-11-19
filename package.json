@@ -60,6 +60,6 @@
     "react-test-renderer": "^16.12.0",
     "supertest": "^4.0.2",
     "webpack": "^4.41.3",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   }
 }
